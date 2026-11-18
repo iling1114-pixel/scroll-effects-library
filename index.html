@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>滾動效果圖鑑 Scroll Effects Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3f0e8;--card:#fbfaf6;--ink:#171614;--mute:#7a756b;--line:#dcd7ca;
+  --acc:#ff4d2e;--blue:#2e5bff;--green:#16a37a;--yellow:#f2b705;--purple:#8b5cf6;
+  --mono:'JetBrains Mono',ui-monospace,monospace;--disp:'Space Grotesk','Noto Sans TC',sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;color:inherit}
+
+/* ---------- Hero ---------- */
+.hero{max-width:1320px;margin:0 auto;padding:56px 28px 32px;display:grid;grid-template-columns:1.25fr 1fr;gap:48px;align-items:end}
+.eyebrow{font:500 11px/1 var(--mono);letter-spacing:.16em;color:var(--mute)}
+.eyebrow b{color:var(--acc);font-weight:500}
+h1{font:900 clamp(46px,7.2vw,100px)/.95 'Noto Sans TC',sans-serif;letter-spacing:-.03em;margin:14px 0 0}
+h1 em{font-style:normal;color:var(--acc)}
+h1 small{display:block;font:500 clamp(14px,1.4vw,18px)/1.2 var(--disp);letter-spacing:.02em;color:var(--mute);margin-top:14px}
+.lead{font-size:15px;line-height:1.85;color:#3d3a34;margin:0 0 22px;max-width:46ch}
+.stats{display:flex;gap:32px;border-top:1px solid var(--line);padding-top:18px}
+.stats b{display:block;font:700 34px/1 var(--disp)}
+.stats span{font-size:12px;color:var(--mute)}
+
+/* ---------- Toolbar ---------- */
+.bar{position:sticky;top:0;z-index:20;background:rgba(243,240,232,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.bar-in{max-width:1320px;margin:0 auto;padding:12px 28px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.search{position:relative}
+.search input{width:250px;border:1px solid var(--line);background:var(--card);border-radius:99px;padding:9px 14px 9px 34px;font:inherit;font-size:13px;color:var(--ink);outline:none}
+.search input:focus{border-color:var(--ink)}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:14px;height:14px;opacity:.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:transparent;padding:7px 12px;border-radius:99px;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.2s}
+.chip:hover{border-color:var(--ink)}
+.chip i{width:7px;height:7px;border-radius:50%;background:var(--c,var(--ink))}
+.chip small{font:500 11px var(--mono);opacity:.55}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip.on i{box-shadow:0 0 0 2px var(--ink),0 0 0 3px var(--bg)}
+.tools{margin-left:auto;display:flex;align-items:center;gap:14px}
+.count{font:500 11px var(--mono);color:var(--mute)}
+.tog{display:inline-flex;align-items:center;gap:8px;border:0;background:none;cursor:pointer;font-size:13px;padding:4px 0}
+.tog span{width:32px;height:18px;border-radius:99px;background:#cfc9bb;position:relative;transition:.25s}
+.tog span::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:.25s}
+.tog[aria-pressed="true"] span{background:var(--acc)}
+.tog[aria-pressed="true"] span::after{left:16px}
+
+/* ---------- Grid & card ---------- */
+main{max-width:1320px;margin:0 auto;padding:28px 28px 64px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:10px;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
+.card:hover{transform:translateY(-2px);box-shadow:0 14px 34px -18px rgba(23,22,20,.35)}
+.card[hidden]{display:none}
+.pv{position:relative}
+.vp{height:260px;overflow-y:auto;overflow-x:hidden;position:relative;background:#ebe7dc;border-radius:11px;scrollbar-width:thin;scrollbar-color:#bdb7a8 transparent;color:var(--ink)}
+@media (hover:hover){.vp{overscroll-behavior:contain}}
+.hint{position:absolute;right:10px;bottom:10px;font:500 10px/1 var(--mono);background:rgba(23,22,20,.8);color:#fff;padding:6px 9px;border-radius:99px;pointer-events:none;transition:opacity .4s;z-index:5}
+.pv.touched .hint{opacity:0}
+.meta{padding:14px 8px 6px;display:flex;flex-direction:column;gap:5px;flex:1}
+.row1{display:flex;justify-content:space-between;align-items:center;font:500 11px var(--mono);color:var(--mute)}
+.cat{display:inline-flex;gap:6px;align-items:center;color:var(--ink);font-family:'Noto Sans TC',sans-serif;font-size:12px}
+.cat::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--c)}
+.meta h3{margin:4px 0 0;font:800 22px/1.25 'Noto Sans TC',sans-serif;cursor:pointer}
+.en{margin:0;font:500 13px var(--disp);color:var(--mute)}
+.desc{margin:6px 0 0;font-size:14px;line-height:1.7;color:#3d3a34}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:12px}
+.tags span{font:500 10.5px var(--mono);border:1px solid var(--line);padding:4px 8px;border-radius:6px;color:#55514a}
+.more{margin-top:12px;align-self:flex-start;background:none;border:0;padding:0 0 2px;font:700 13px 'Noto Sans TC',sans-serif;cursor:pointer;border-bottom:1.5px solid var(--acc)}
+.more:hover{color:var(--acc)}
+.empty{grid-column:1/-1;text-align:center;padding:80px 0;color:var(--mute)}
+
+/* ---------- Modal ---------- */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(23,22,20,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:grid;place-items:center;padding:24px}
+.modal[hidden]{display:none}
+.mbox{background:var(--bg);border-radius:22px;width:min(1120px,100%);max-height:calc(100vh - 48px);overflow:auto;position:relative;padding:24px}
+.x{position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);cursor:pointer;font-size:15px;z-index:3}
+.mgrid{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:start}
+.pv.big .vp{height:min(460px,56vh)}
+.minfo{padding-top:4px}
+.minfo .row1{padding-right:52px}
+.minfo h2{font:900 34px/1.15 'Noto Sans TC',sans-serif;margin:8px 0 2px}
+.minfo dl{margin:18px 0 0}
+.minfo dt{font:500 11px var(--mono);letter-spacing:.1em;color:var(--mute);margin-top:14px}
+.minfo dd{margin:4px 0 0;font-size:14.5px;line-height:1.75}
+.mnav{display:flex;gap:8px;margin-top:22px}
+.mnav button{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:8px 14px;font-size:13px;cursor:pointer}
+.mnav button:hover{border-color:var(--ink)}
+.mcode{margin-top:24px;background:#1b1a17;border-radius:14px;overflow:hidden}
+.mcode-h{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;color:#bdb7a8;font:500 11px var(--mono);border-bottom:1px solid #2c2a26}
+.copy{background:var(--acc);color:#fff;border:0;border-radius:99px;padding:7px 14px;font:700 12px 'Noto Sans TC',sans-serif;cursor:pointer}
+pre{margin:0;padding:20px 22px;overflow:auto;font:14px/1.85 'Noto Sans TC',sans-serif;color:#efe9da;white-space:pre-wrap;max-height:460px}
+pre code{font:inherit}
+
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr;gap:24px;padding:36px 18px 24px}
+  .bar-in{padding:10px 18px}
+  .search,.search input{width:100%}
+  .tools{margin-left:0;width:100%;justify-content:space-between}
+  main{padding:18px}
+  .modal{padding:0}
+  .mbox{border-radius:0;max-height:100vh;height:100vh;padding:18px}
+  .mgrid{grid-template-columns:1fr;gap:16px}
+  .minfo h2{font-size:26px}
+}
+
+/* =========================================================
+   Preview internals
+   ========================================================= */
+.pad{height:calc(var(--h)*.45);display:grid;place-items:center;font:500 11px/1 var(--mono);letter-spacing:.1em;color:#9a958a}
+.stage{position:sticky;top:0;height:var(--h);overflow:hidden}
+.ln-p{padding:0 14px 12px}
+.ln-p i{display:block;height:7px;border-radius:4px;background:#d3cdbf;margin-bottom:8px}
+
+/* se-01 */
+.fu-item{margin:10px 14px;padding:12px;background:#fff;border-radius:11px;display:flex;gap:12px;align-items:center;opacity:0;transform:translateY(28px);transition:opacity .6s,transform .6s cubic-bezier(.2,.7,.2,1)}
+.fu-item.in{opacity:1;transform:none}
+.fu-item i{width:34px;height:34px;border-radius:9px;flex:none}
+.fu-txt{flex:1}
+.fu-txt b{display:block;height:9px;width:62%;background:var(--ink);border-radius:4px;margin-bottom:7px}
+.fu-txt span{display:block;height:7px;width:40%;background:#d6d1c4;border-radius:4px}
+/* se-02 */
+.sg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 20px}
+.sg-tile{aspect-ratio:1;opacity:0;transform:scale(.55) translateY(16px);transition:opacity .45s,transform .6s cubic-bezier(.3,1.5,.5,1);transition-delay:calc(var(--i)*60ms)}
+.sg-grid.in .sg-tile{opacity:1;transform:none}
+/* se-03 */
+.ct-wrap{display:grid;gap:10px;padding:0 14px}
+.ct-box{background:#fff;border-radius:12px;padding:14px 16px;display:flex;align-items:baseline;gap:4px;border-left:5px solid}
+.ct-num{font:700 34px/1 var(--disp);font-variant-numeric:tabular-nums}
+.ct-suf{font:700 18px var(--disp)}
+.ct-lab{font-size:12px;color:var(--mute);margin-left:auto}
+/* se-04 */
+.rl-list{perspective:700px;padding:calc(var(--h)*.42) 18px}
+.rl-row{height:46px;margin-bottom:8px;border-radius:11px;background:#fff;display:flex;align-items:center;gap:12px;padding:0 14px;will-change:transform,opacity}
+.rl-row em{font:500 12px var(--mono);font-style:normal;color:var(--mute)}
+.rl-row span{height:8px;flex:1;background:#d6d1c4;border-radius:4px}
+.rl-row b{width:16px;height:16px;border-radius:50%;flex:none}
+/* se-05 */
+.px-stage{background:linear-gradient(#ffe3c4,#ffb48a 55%,#ff8a5c)}
+.px-sun{position:absolute;left:50%;top:12%;width:66px;height:66px;margin-left:-33px;border-radius:50%;background:#fff5dc;box-shadow:0 0 50px 10px rgba(255,245,220,.8)}
+.px-far,.px-near{position:absolute;left:0;right:0;will-change:transform}
+.px-far{bottom:-25%;height:70%}
+.px-near{bottom:-55%;height:90%}
+.px-far svg,.px-near svg{width:100%;height:100%;display:block}
+.px-title{position:absolute;left:0;right:0;top:30%;text-align:center;font:700 34px var(--disp);color:#fff;letter-spacing:.06em;text-shadow:0 2px 12px rgba(120,40,40,.25)}
+/* se-06 */
+.iz-stage{display:grid;place-items:center}
+.iz-img{width:100%;height:100%;background:radial-gradient(circle at 28% 34%,#f2b705 0 13%,transparent 13.5%),radial-gradient(circle at 74% 68%,#ff4d2e 0 21%,transparent 21.5%),linear-gradient(135deg,#2e5bff,#171614);display:flex;align-items:flex-end;padding:18px;color:#fff;font:700 24px var(--disp);will-change:transform}
+/* se-07 */
+.sk-card{position:sticky;margin:0 14px calc(var(--h)*.28);height:calc(var(--h)*.62);border-radius:15px;padding:16px;transform-origin:top center;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 -8px 22px rgba(0,0,0,.1)}
+.sk-card span{font:500 10px var(--mono);letter-spacing:.12em;opacity:.85}
+.sk-card b{font:900 30px 'Noto Sans TC',sans-serif}
+/* se-08 */
+.hz-track{display:flex;gap:12px;height:100%;align-items:center;padding:0 14px;will-change:transform}
+.hz-panel{flex:none;width:72%;height:70%;border-radius:15px;padding:16px;display:flex;flex-direction:column;justify-content:space-between}
+.hz-panel span{font:500 10px var(--mono);letter-spacing:.12em}
+.hz-panel b{font:700 36px var(--disp)}
+.hz-bar{position:absolute;left:14px;right:14px;bottom:14px;height:3px;background:#d6d1c4;border-radius:2px;overflow:hidden}
+.hz-bar i{display:block;height:100%;background:var(--ink);transform-origin:0 50%;transform:scaleX(0)}
+/* se-09 */
+.st-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 14px}
+.st-vis{position:sticky;top:calc(var(--h)*.15);height:calc(var(--h)*.7);align-self:start;background:#fff;border-radius:15px;display:grid;place-items:center;overflow:hidden}
+.st-num{position:absolute;top:10px;left:12px;font:500 11px var(--mono);color:var(--mute)}
+.st-shape{width:74px;height:74px;transition:all .6s cubic-bezier(.5,0,.2,1)}
+.st-step{min-height:calc(var(--h)*.8);display:flex;align-items:center}
+.st-step p{margin:0;font-size:13px;line-height:1.55;opacity:.25;transition:opacity .35s}
+.st-step p b{display:block;font:700 14px 'Noto Sans TC',sans-serif;margin-bottom:2px}
+.st-step.on p{opacity:1}
+/* se-10 */
+.vp.snap{scroll-snap-type:y mandatory}
+.sn-dots{position:sticky;top:0;height:0;z-index:2}
+.sn-dots div{position:absolute;right:12px;top:calc(var(--h)/2);transform:translateY(-50%);display:flex;flex-direction:column;gap:6px}
+.sn-dots i{width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.55);transition:.3s;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+.sn-dots i.on{height:20px;background:#fff}
+.sn-page{height:var(--h);scroll-snap-align:start;scroll-snap-stop:always;display:grid;place-items:center;text-align:center}
+.sn-page b{display:block;font:700 62px/1 var(--disp)}
+.sn-page span{font-size:13px;letter-spacing:.3em}
+/* se-11 */
+.cr-base,.cr-top{position:absolute;inset:0;display:grid;place-items:center;font:700 42px var(--disp);letter-spacing:.02em}
+.cr-base{background:var(--ink);color:#f3f0e8}
+.cr-top{background:var(--acc);color:var(--ink);clip-path:circle(0% at 50% 50%)}
+/* se-12 */
+.dr-in{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:6px;background:var(--yellow);text-align:center}
+.dr-in b{font:900 32px 'Noto Sans TC',sans-serif}
+.dr-in span{font:500 11px var(--mono);letter-spacing:.24em}
+.dr-l,.dr-r{position:absolute;top:0;bottom:0;width:50%;background:var(--ink) repeating-linear-gradient(45deg,transparent 0 10px,rgba(255,255,255,.05) 10px 20px);display:flex;align-items:center;color:#f3f0e8;font:700 40px var(--disp);will-change:transform}
+.dr-l{left:0;justify-content:flex-end;padding-right:4px;border-right:1px solid #3a3833}
+.dr-r{right:0;padding-left:4px}
+/* se-13 */
+.vp.bgs{transition:background-color .7s,color .7s}
+.bs-sec{height:calc(var(--h)*.9);display:grid;place-items:center;align-content:center;text-align:center;gap:6px}
+.bs-sec b{font:900 30px 'Noto Sans TC',sans-serif}
+.bs-sec span{font:500 11px var(--mono);letter-spacing:.2em;opacity:.7}
+/* se-14 */
+.th-stage{display:flex;align-items:center;padding:0 22px}
+.th-text{font:700 21px/1.65 'Noto Sans TC',sans-serif;margin:0}
+.th-text span{color:#cbc5b6;transition:color .15s}
+.th-text span.lit{color:var(--ink)}
+.th-text span.lit[data-k]{color:var(--acc)}
+/* se-15 */
+.mq-stage{display:flex;flex-direction:column;justify-content:center;gap:4px;background:var(--ink)}
+.mq-row{overflow:hidden;white-space:nowrap}
+.mq-track{display:inline-flex;will-change:transform;font:700 40px/1.15 var(--disp);color:#f3f0e8}
+.mq-track span{padding-right:22px}
+.mq-row.o .mq-track{color:transparent;-webkit-text-stroke:1.2px #f3f0e8}
+.mq-row.a .mq-track{color:var(--acc)}
+/* se-16 */
+.op-stage{display:flex;flex-direction:column;justify-content:center;gap:2px}
+.op-line{white-space:nowrap;font:700 54px/1.05 var(--disp);letter-spacing:-.02em;will-change:transform}
+.op-line.b{color:transparent;-webkit-text-stroke:1.5px var(--ink)}
+.op-line.c{color:var(--acc);font-family:'Noto Sans TC',sans-serif;font-weight:900}
+/* se-17 */
+.ld-stage{display:grid;place-items:center}
+.ld-svg{width:92%;height:80%;overflow:visible}
+.ld-bg{fill:none;stroke:#cfc9bb;stroke-width:2;stroke-dasharray:4 6}
+.ld-path{fill:none;stroke:var(--acc);stroke-width:5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.ld-dot{fill:var(--ink)}
+.ld-pct{position:absolute;top:12px;left:14px;font:500 11px var(--mono);color:var(--mute)}
+/* se-18 */
+.pg-head{position:sticky;top:0;background:rgba(251,250,246,.94);z-index:2}
+.pg-row{display:flex;justify-content:space-between;font:500 10px var(--mono);color:var(--mute);padding:11px 14px 9px;letter-spacing:.06em}
+.pg-bar{height:4px;background:var(--acc);transform-origin:0 50%;transform:scaleX(0)}
+.pg-art{padding-top:16px}
+.pg-h{height:16px;width:70%;background:var(--ink);border-radius:4px;margin:0 14px 16px}
+.pg-img{height:96px;margin:4px 14px 16px;border-radius:11px;background:linear-gradient(135deg,#2e5bff,#16a37a)}
+/* se-19 */
+.sh-head{position:sticky;top:0;z-index:2;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;transition:height .3s,background-color .3s,box-shadow .3s}
+.sh-head.s{height:42px;background:rgba(255,255,255,.94);box-shadow:0 1px 0 rgba(0,0,0,.06),0 8px 18px rgba(0,0,0,.07)}
+.sh-logo{font:700 19px var(--disp);transition:font-size .3s}
+.sh-head.s .sh-logo{font-size:14px}
+.sh-nav{display:flex;gap:8px;align-items:center}
+.sh-nav i{width:24px;height:6px;border-radius:3px;background:var(--ink);opacity:.4}
+.sh-nav b{font-size:10px;background:var(--acc);color:#fff;padding:5px 9px;border-radius:99px}
+.sh-hero{margin:0 14px 16px;height:150px;border-radius:14px;background:linear-gradient(135deg,#16a37a,#2e5bff);display:flex;align-items:flex-end;padding:14px;color:#fff;font:700 22px var(--disp)}
+/* se-20 */
+.hd-head{position:sticky;top:0;z-index:2;height:46px;background:var(--ink);color:#f3f0e8;display:flex;align-items:center;justify-content:space-between;padding:0 14px;transition:transform .35s cubic-bezier(.4,0,.2,1);font:700 14px var(--disp)}
+.hd-head span:last-child{font:500 10px var(--mono);opacity:.7}
+.hd-head.h{transform:translateY(-100%)}
+.hd-gap{height:14px}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div>
+    <div class="eyebrow"><b>●</b> SCROLL EFFECTS LIBRARY — VOL.01</div>
+    <h1>滾動效果<em>圖鑑</em><small>A field guide to scroll interactions</small></h1>
+  </div>
+  <div>
+    <p class="lead">整理 20 種網站上常見又耐用的滾動互動。每張卡片都是可以直接在框內滾動的示意，點開可看說明、適用情境、交接備註，以及可以直接貼給 AI 實作的提示詞。</p>
+    <div class="stats">
+      <div><b>20</b><span>種效果</span></div>
+      <div><b>6</b><span>個分類</span></div>
+      <div><b>20</b><span>組提示詞</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="bar-in">
+    <label class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <input id="q" type="search" placeholder="搜尋名稱、英文、用途…" autocomplete="off">
+    </label>
+    <div class="chips" id="chips"></div>
+    <div class="tools">
+      <span class="count" id="count"></span>
+      <button class="tog" id="auto" aria-pressed="true"><span></span>自動示範</button>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="grid" id="grid"></div>
+</main>
+
+
+<div class="modal" id="modal" hidden>
+  <div class="mbox" role="dialog" aria-modal="true" aria-labelledby="m-title">
+    <button class="x" id="m-close" aria-label="關閉">✕</button>
+    <div class="mgrid">
+      <div class="pv big" id="m-pv"></div>
+      <div class="minfo">
+        <div class="row1"><span id="m-id"></span><span class="cat" id="m-cat"></span></div>
+        <h2 id="m-title"></h2>
+        <p class="en" id="m-en"></p>
+        <dl>
+          <dt>效果說明</dt><dd id="m-desc"></dd>
+          <dt>適用情境</dt><dd id="m-use"></dd>
+          <dt>實作方式</dt><dd id="m-tech"></dd>
+          <dt>交接備註</dt><dd id="m-tip"></dd>
+        </dl>
+        <div class="mnav"><button id="m-prev">← 上一個</button><button id="m-next">下一個 →</button></div>
+      </div>
+    </div>
+    <div class="mcode">
+      <div class="mcode-h"><span>PROMPT · 可直接貼給 Claude Code</span><button class="copy" id="m-copy">複製提示詞</button></div>
+      <pre><code id="m-code"></code></pre>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+const C = ['#ff4d2e', '#2e5bff', '#16a37a', '#f2b705', '#171614'];
+const CATS = [
+  { k: '進場揭露', c: '#ff4d2e' },
+  { k: '視差景深', c: '#2e5bff' },
+  { k: '黏貼敘事', c: '#16a37a' },
+  { k: '遮罩轉場', c: '#e0a100' },
+  { k: '文字圖形', c: '#8b5cf6' },
+  { k: '導覽進度', c: '#171614' },
+];
+const catColor = (k) => (CATS.find((c) => c.k === k) || {}).c;
+
+const DATA = [
+  { id:'se-01', zh:'淡入上浮', en:'Fade Up Reveal', cat:'進場揭露', lv:'基礎', tech:'IntersectionObserver',
+    desc:'元素進入畫面時由下往上淡入，最常見、也最不容易出錯的進場效果。',
+    use:'卡片列表、段落標題、功能介紹區塊。',
+    how:'用 IntersectionObserver 偵測進入畫面，切換 class，動畫交給 CSS transition。',
+    tip:'位移控制在 16–32px、時間 0.4–0.7 秒最自然；離開畫面要不要重播，依品牌調性決定。' },
+  { id:'se-02', zh:'交錯彈出', en:'Staggered Pop', cat:'進場揭露', lv:'基礎', tech:'IO + CSS 變數',
+    desc:'一組元素依序延遲出場並帶一點回彈，讓網格有節奏感。',
+    use:'圖示牆、合作夥伴 Logo、作品集縮圖。',
+    how:'外層進入畫面時加 class，每個子元素用 --i 搭配 transition-delay 錯開時間。',
+    tip:'每格延遲 40–80ms 即可，整組總長不要超過 0.8 秒，以免使用者等待。' },
+  { id:'se-03', zh:'數字滾動', en:'Count Up', cat:'進場揭露', lv:'基礎', tech:'IO + rAF',
+    desc:'統計數字進入畫面時從 0 跑到目標值，強化數據印象。',
+    use:'成果數據、會員數、年資等 KPI 區塊。',
+    how:'進入畫面時用 requestAnimationFrame 搭配 easeOutCubic 緩動更新數字。',
+    tip:'正式網站通常只播一次；數字套 font-variant-numeric: tabular-nums 避免寬度跳動。（示意卡片為了方便觀察會重播）' },
+  { id:'se-04', zh:'3D 滾筒列表', en:'3D Roll List', cat:'進場揭露', lv:'中階', tech:'Scroll 位置計算',
+    desc:'列表項目依在畫面中的位置傾斜與淡出，像沿著滾筒轉動。',
+    use:'時間軸、排行榜、選單式列表。',
+    how:'外層加 perspective，依每列中心點在畫面的位置計算 rotateX 與 opacity。',
+    tip:'計算量會隨項目數增加，長列表只處理可視範圍內的元素。' },
+  { id:'se-05', zh:'多層視差', en:'Layered Parallax', cat:'視差景深', lv:'中階', tech:'Scroll 位移',
+    desc:'前景、中景、背景以不同速度移動，製造空間深度。',
+    use:'品牌首屏、活動主視覺、故事開場。',
+    how:'每一層設定 data-speed，滾動時依區塊已滾過的距離乘上速度做 translate3d。',
+    tip:'只動 transform；考量手機效能與暈動症，prefers-reduced-motion 時建議關閉。' },
+  { id:'se-06', zh:'圖片放大展開', en:'Scale-up Media', cat:'視差景深', lv:'基礎', tech:'CSS view() / Scroll 進度',
+    desc:'圖片或影片從圓角小卡隨滾動放大到滿版，把視線拉進主畫面。',
+    use:'產品主圖、形象影片、案例封面。',
+    how:'sticky 區段取得 0~1 進度，控制 scale 與 border-radius；新瀏覽器可用純 CSS view() 時間軸。',
+    tip:'用 @supports 包住純 CSS 版本，其他瀏覽器走 JS 後備，工程師不必二選一。' },
+  { id:'se-07', zh:'堆疊卡片', en:'Stacking Cards', cat:'黏貼敘事', lv:'中階', tech:'sticky + Scroll',
+    desc:'卡片黏在頂部並依序疊上，前一張會微微縮小變暗。',
+    use:'服務流程、方案介紹、作品案例。',
+    how:'每張卡 position: sticky，top 逐張遞增；依下一張靠近的距離計算前一張的縮放。',
+    tip:'祖先元素不能有 overflow: hidden，否則 sticky 會失效——這是最常見的交接 bug。' },
+  { id:'se-08', zh:'橫向捲動', en:'Horizontal Scroll', cat:'黏貼敘事', lv:'中階', tech:'sticky + translateX',
+    desc:'垂直滾動時區塊固定在畫面上，內容改為橫向前進。',
+    use:'時間軸、作品集、產品系列。',
+    how:'外層拉高（例如 400vh），內層 sticky 舞台，依進度把橫向軌道 translateX。',
+    tip:'外層高度決定橫移速度；手機上可改回原生橫向滑動，避免卡手。' },
+  { id:'se-09', zh:'黏貼敘事', en:'Scrollytelling', cat:'黏貼敘事', lv:'中階', tech:'IntersectionObserver',
+    desc:'一側視覺固定，另一側文字段落經過時切換視覺狀態。',
+    use:'產品功能說明、資料新聞、品牌故事。',
+    how:'視覺欄 sticky；用 rootMargin: -50% 偵測哪一段通過畫面中線，更新 data-step。',
+    tip:'狀態樣式全部寫在 CSS 的 [data-step] 選擇器裡，設計師改樣式不用碰 JS。' },
+  { id:'se-10', zh:'整頁貼齊', en:'Full-page Snap', cat:'黏貼敘事', lv:'基礎', tech:'CSS scroll-snap',
+    desc:'每次滾動都會自動對齊到下一整頁，像在翻投影片。',
+    use:'活動頁、作品展示、行動版導覽。',
+    how:'捲動容器設 scroll-snap-type: y mandatory，每頁設 scroll-snap-align: start。',
+    tip:'純 CSS 即可；內容可能高於一屏時不適合 mandatory，改用 proximity。' },
+  { id:'se-11', zh:'圓形遮罩揭露', en:'Circle Reveal', cat:'遮罩轉場', lv:'基礎', tech:'clip-path + 進度',
+    desc:'新畫面以圓形從中心擴散，蓋過舊畫面。',
+    use:'章節轉場、Before / After、主視覺切換。',
+    how:'上層用 clip-path: circle()，半徑跟著 sticky 區段進度從 0 長到 75%。',
+    tip:'clip-path 動畫效能好；圓心可以改到按鈕或游標位置，製造前後的連結感。' },
+  { id:'se-12', zh:'開門轉場', en:'Split Door', cat:'遮罩轉場', lv:'基礎', tech:'translateX + 進度',
+    desc:'兩片面板往左右拉開，露出底下的內容。',
+    use:'新品揭幕、活動開場、節慶主題頁。',
+    how:'左右兩片各占 50%，依進度分別往外 translateX。',
+    tip:'前後各留一段停頓，讓使用者先看見「門」，最後再看清內容。' },
+  { id:'se-13', zh:'背景變色', en:'Background Shift', cat:'遮罩轉場', lv:'基礎', tech:'IntersectionObserver',
+    desc:'滾到不同段落時，整頁背景與文字顏色平滑轉換。',
+    use:'長篇品牌頁、章節分明的故事頁。',
+    how:'每段標上 data-bg / data-fg，通過畫面中線時改 body 顏色，交給 transition。',
+    tip:'文字色要一起切換並檢查對比度；轉場 0.5–0.8 秒最舒服。' },
+  { id:'se-14', zh:'逐字點亮', en:'Text Highlight', cat:'文字圖形', lv:'中階', tech:'sticky + 進度',
+    desc:'一段大字隨滾動逐字由淡轉深，讓閱讀跟著節奏走。',
+    use:'品牌宣言、引言、關鍵訊息。',
+    how:'把文字拆成 span，依進度決定前幾個字加上 .lit；關鍵字可另外上色。',
+    tip:'拆字後記得在外層放 aria-label 保留原文，螢幕閱讀器才不會一字一字念。' },
+  { id:'se-15', zh:'速度跑馬燈', en:'Velocity Marquee', cat:'文字圖形', lv:'進階', tech:'rAF + 滾動速度',
+    desc:'跑馬燈持續移動，滾得越快跑得越快，方向跟著滾動方向，還帶一點斜切。',
+    use:'品牌標語、合作夥伴、活動關鍵字。',
+    how:'每幀計算滾動差值當速度並平滑化，加到基本速度上；內容放兩份做無縫循環。',
+    tip:'跑馬燈離開畫面時暫停 requestAnimationFrame 以省電；減少動態設定下改為靜止。' },
+  { id:'se-16', zh:'雙向文字錯位', en:'Opposite Text Slide', cat:'文字圖形', lv:'基礎', tech:'Scroll 進度',
+    desc:'幾行大字往相反方向滑動，交錯出張力。',
+    use:'首屏標題、章節分隔、海報式版面。',
+    how:'sticky 舞台內，依進度讓奇數行往左、偶數行往右 translateX。',
+    tip:'字級要夠大（約 6vw 以上）效果才明顯；外層 overflow: hidden 避免出現橫向捲軸。' },
+  { id:'se-17', zh:'路徑繪製', en:'SVG Line Draw', cat:'文字圖形', lv:'中階', tech:'stroke-dashoffset',
+    desc:'SVG 線條隨滾動一筆一筆畫出來，還可以帶一個跟隨的端點。',
+    use:'流程圖、路線地圖、簽名或插畫。',
+    how:'path 加 pathLength="1"，dasharray 設 1，dashoffset 從 1 跑到 0。',
+    tip:'設計稿匯出 SVG 時保持「描邊」不要轉外框，否則沒辦法做繪製效果。' },
+  { id:'se-18', zh:'閱讀進度條', en:'Reading Progress', cat:'導覽進度', lv:'基礎', tech:'CSS scroll() / JS',
+    desc:'頁面頂端的細條，顯示目前讀到哪裡。',
+    use:'部落格文章、長篇說明、條款頁。',
+    how:'新瀏覽器用 animation-timeline: scroll(root)，其他用 scrollY 比例控制 scaleX。',
+    tip:'用 scaleX 而不是 width，避免每次滾動都觸發重排。' },
+  { id:'se-19', zh:'縮放導覽列', en:'Shrinking Header', cat:'導覽進度', lv:'基礎', tech:'Scroll 門檻 + class',
+    desc:'一開始寬鬆透明，往下滾之後導覽列縮矮，並出現底色與陰影。',
+    use:'企業官網、電商，幾乎所有有固定導覽的網站。',
+    how:'scrollY 超過門檻就加上 .is-shrunk，高度、底色、陰影交給 CSS transition。',
+    tip:'Bootstrap 專案可以直接沿用 .sticky-top，只多加一個狀態 class。' },
+  { id:'se-20', zh:'智慧隱藏導覽', en:'Hide-on-Scroll Header', cat:'導覽進度', lv:'基礎', tech:'滾動方向判斷',
+    desc:'往下讀時導覽列收起讓出空間，往上滑就立刻出現。',
+    use:'行動版網站、文章頁、內容型網站。',
+    how:'比較這次與上次的 scrollY 判斷方向，往下且超過門檻時加上 .is-hidden。',
+    tip:'加 5–10px 的方向門檻，避免手指輕微抖動造成導覽列閃爍。' },
+];
+
+/* ---------- prompts ---------- */
+const P = {
+  'se-01': ['捲動時，元素進入畫面會從下方約 28px 處往上移，同時淡入。', [
+    '套用在［卡片列表／段落標題］等需要逐一出現的元素',
+    '元素進入畫面底部約 12% 時觸發',
+    '動畫約 0.6 秒，緩動用 cubic-bezier(.2,.7,.2,1)',
+    '用 IntersectionObserver 偵測並切換 class，動畫寫在 CSS',
+    '只播一次，離開畫面不重播']],
+  'se-02': ['容器進入畫面時，裡面的一組元素依序彈出，帶一點回彈。', [
+    '套用在［圖示牆／Logo 牆／作品縮圖網格］',
+    '每個元素從「縮小到 60%、往下 16px、透明」回到原位',
+    '每個元素間隔 60ms 出場，整組不超過 0.8 秒',
+    '回彈用 cubic-bezier(.3,1.5,.5,1)',
+    '用 CSS 變數 --i 控制每個元素的延遲順序，只播一次']],
+  'se-03': ['統計數字進入畫面時，從 0 平順地跑到目標數值。', [
+    '目標數值寫在 HTML 的 data 屬性，方便日後修改',
+    '動畫約 1.4 秒，用 easeOutCubic（先快後慢）',
+    '數字加千分位（例如 12,800），後面可接單位或符號（+、%）',
+    '使用等寬數字（tabular-nums），跑動時寬度不會抖',
+    '元素有 60% 進入畫面才開始，只播一次']],
+  'se-04': ['列表項目依它在畫面中的上下位置產生 3D 傾斜與淡出，看起來像沿著滾筒轉動。', [
+    '在畫面正中央的項目保持正面、完全不透明',
+    '越靠近上下邊緣傾斜越多（最多約 ±37°），也越透明',
+    '父層加 perspective 約 800px',
+    '捲動計算用 requestAnimationFrame 節流',
+    '項目很多時，只計算可視範圍內的元素']],
+  'se-05': ['首屏由前景、中景、背景多層圖像組成，捲動時各層以不同速度移動，產生景深。', [
+    '至少 3 層：背景最慢、前景最快（可以比捲動本身更快）',
+    '每層速度用 data 屬性設定，方便微調',
+    '主標題隨捲動往上移並淡出',
+    '使用 translate3d 並加上 will-change',
+    '使用者開啟「減少動態效果」時關閉視差，所有圖層保持靜止']],
+  'se-06': ['一張圖片（或影片）一開始是置中、縮小 50% 的圓角卡片，隨捲動逐漸放大成滿版。', [
+    '使用 sticky 區段（外層約 300vh），放大過程中圖片固定在畫面上',
+    '縮放從 0.5 到 1，圓角從 36px 漸變為 0',
+    '放大到約 60% 之後，圖上的標題文字淡入',
+    '優先用 CSS animation-timeline: view() 實作，再用 @supports 提供 JS 後備']],
+  'se-07': ['數張卡片捲動時依序黏在畫面頂部往上疊，被蓋住的前一張微微縮小、變暗。', [
+    '每張卡片使用 position: sticky，top 逐張遞增約 12px，疊起來看得到層次',
+    '被下一張蓋過時，前一張縮小到 88%、亮度降到 70%，縮放原點在上緣',
+    '變化依下一張卡片靠近的距離連續計算，不是瞬間切換',
+    '確認所有祖先元素都沒有 overflow: hidden，以免 sticky 失效']],
+  'se-08': ['往下捲動時，這個區塊固定在畫面上，內容改為向左橫移，捲完後才繼續往下。', [
+    '外層高度約 400vh（高度決定橫移速度），內層舞台 sticky 滿版固定',
+    '內容是一排橫向卡片，每張約 70% 視窗寬',
+    '依捲動進度（0～1）計算橫移距離，剛好停在最後一張',
+    '底部加一條細進度條',
+    '768px 以下改為原生橫向滑動']],
+  'se-09': ['兩欄版面：一側視覺固定，另一側文字段落往上捲；每段經過畫面中線時，固定的視覺切換成對應狀態。', [
+    '視覺欄 sticky，固定在畫面約 15% 高度處',
+    '每段文字約 80vh 高，目前段落不透明，其他段落 30% 透明度',
+    '用 IntersectionObserver 搭配 rootMargin: -50% 判斷段落通過中線',
+    '各狀態（形狀、顏色、旋轉）寫在 CSS 的 [data-step] 選擇器裡，轉場約 0.6 秒',
+    '手機版改為上下排列']],
+  'se-10': ['每次捲動都自動對齊到下一整頁，像翻投影片。', [
+    '每頁高度 100vh（行動版用 100svh）',
+    '用 CSS scroll-snap（y mandatory + scroll-snap-stop: always），一次只翻一頁',
+    '右側加頁碼圓點，目前頁的圓點拉長顯示',
+    '貼齊本身不要用 JS 攔截捲動事件']],
+  'se-11': ['捲動時，新畫面以圓形從中心擴散開來，逐漸蓋過舊畫面。', [
+    '使用 sticky 區段（外層約 300vh），兩層畫面上下疊放',
+    '上層使用 clip-path: circle()，半徑隨捲動進度從 0% 長到 75%（剛好蓋滿四角）',
+    '圓心預設在畫面中央，保留參數方便改位置',
+    '進度的開頭和結尾各留一點停頓']],
+  'se-12': ['兩片面板像門一樣往左右拉開，露出底下的內容。', [
+    '使用 sticky 區段（外層約 300vh）',
+    '左右面板各占 50% 寬，隨捲動分別往外移出畫面',
+    '捲動進度前 15% 與後 15% 保持靜止，讓使用者先看見門、最後看清內容',
+    '面板上可放品牌圖樣，或把一個標題切成左右兩半']],
+  'se-13': ['捲到不同段落時，整頁背景色與文字顏色平滑轉換。', [
+    '每個段落用 data 屬性標記背景色與文字色',
+    '段落通過畫面中線時切換（IntersectionObserver + rootMargin: -50%）',
+    '顏色轉場 0.7 秒',
+    '每組背景色與文字色都要符合 WCAG AA 對比度']],
+  'se-14': ['一段大字固定在畫面中央，隨捲動一個字一個字由淺灰變深。', [
+    '使用 sticky 區段（外層約 300vh），文字垂直置中',
+    '未讀文字淺灰 #cbc5b6、已讀為深色；關鍵字［填入關鍵字］點亮時顯示品牌色',
+    '點亮進度與捲動進度同步，往回捲會變回淺灰',
+    '拆字後在外層加 aria-label 保留完整原文，螢幕閱讀器才能正常朗讀']],
+  'se-15': ['幾排大字跑馬燈持續無縫循環；捲動越快跑得越快，方向跟著捲動方向，並依速度產生斜切。', [
+    '2～3 排，相鄰兩排方向相反，可混用實心、空心描邊、品牌色',
+    '沒有捲動時保持緩慢的基本速度',
+    '捲動速度要平滑化，不要忽快忽慢；斜切角度上限 ±14°',
+    '內容複製兩份做無縫循環',
+    '離開畫面時暫停動畫迴圈；開啟「減少動態效果」時改為靜止']],
+  'se-16': ['幾行超大標題在捲動時往相反方向水平滑動。', [
+    '使用 sticky 區段（外層約 300vh）',
+    '奇數行往左、偶數行往右，各移動約自身寬度的 50～60%',
+    '字級約 9vw、不換行，可混用實心與空心描邊',
+    '外層 overflow: hidden，不能出現橫向捲軸']],
+  'se-17': ['一條 SVG 曲線隨捲動一筆一筆畫出來，筆尖有一個圓點跟著走。', [
+    '路徑加上 pathLength="1"，用 stroke-dashoffset 從 1 到 0 控制繪製進度',
+    '後方保留一條淺灰虛線，預告完整路徑',
+    '圓點用 getPointAtLength 跟隨目前進度的位置，可同時顯示百分比',
+    '優先用 CSS animation-timeline: view()，並提供 JS 後備']],
+  'se-18': ['頁面最上方固定一條細進度條，顯示目前讀到文章的百分比。', [
+    '高度 4px、品牌色，固定在頁面頂端',
+    '用 transform: scaleX() 控制長度，不要改 width',
+    '優先用 CSS animation-timeline: scroll(root)，不支援的瀏覽器用 JS 後備',
+    '可選擇在旁邊顯示百分比數字']],
+  'se-19': ['導覽列一開始較高、背景透明；往下捲超過 24px 後縮矮，出現半透明白底、毛玻璃與陰影。', [
+    '高度從 72px 縮到 52px，Logo 等比縮小',
+    'JS 只負責切換一個狀態 class，樣式變化全部交給 CSS transition（0.3 秒）',
+    '專案使用 Bootstrap 的話，沿用 .sticky-top']],
+  'se-20': ['往下捲動時導覽列往上收起，往上捲動時立刻滑出來。', [
+    '捲動超過 80px 後才開始判斷方向',
+    '加上約 6px 的方向門檻，避免手指輕微抖動造成閃爍',
+    '收起與出現用 translateY，轉場 0.35 秒',
+    '回到頁面頂端時一定要顯示']],
+};
+const TECH = [
+  '使用原生 HTML / CSS / JavaScript，不引入外部套件',
+  '動畫只用 transform、opacity（或 clip-path），避免造成重排',
+  '若需要監聽捲動，加上 { passive: true } 並用 requestAnimationFrame 節流',
+  '支援 prefers-reduced-motion：開啟時取消大幅位移，內容直接顯示',
+  'class 命名語意化並加上中文註解，方便工程師接手',
+];
+const promptOf = (d) => {
+  const [fx, list] = P[d.id];
+  return `請幫我實作「${d.zh}（${d.en}）」滾動效果。\n\n【效果】\n${fx}\n\n【細節】\n${list.map((x) => '- ' + x).join('\n')}\n\n【技術要求】\n${TECH.map((x) => '- ' + x).join('\n')}`;
+};
+
+/* ---------- helpers ---------- */
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const rt = (el, vp) => el.getBoundingClientRect().top - vp.getBoundingClientRect().top;
+const lp = (w, vp) => { const h = w.offsetHeight - vp.clientHeight; return h > 0 ? clamp(-rt(w, vp) / h) : 0; };
+const PAD = (t) => `<div class="pad">${t}</div>`;
+const LINES = (n) => Array.from({ length: n }, (_, k) =>
+  `<div class="ln-p">${[94, 88, 97, 82, 56].map((w) => `<i style="width:${w - (k % 3) * 5}%"></i>`).join('')}</div>`).join('');
+const WRAP = (n, inner, cls = '') => `<div class="wrap" style="height:calc(var(--h)*${n})"><div class="stage ${cls}">${inner}</div></div>`;
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+/* ---------- builders: each returns update() or { update, tick } ---------- */
+const B = {
+  'se-01': (vp) => {
+    vp.innerHTML = PAD('↓ SCROLL') + Array.from({ length: 7 }, (_, i) =>
+      `<div class="fu-item"><i style="background:${C[i % 4]}"></i><div class="fu-txt"><b></b><span></span></div></div>`).join('') + PAD('END');
+    const it = $$('.fu-item', vp);
+    return () => { const H = vp.clientHeight; it.forEach((e) => e.classList.toggle('in', rt(e, vp) < H * .88)); };
+  },
+  'se-02': (vp) => {
+    vp.innerHTML = PAD('↓ SCROLL') + `<div class="sg-grid">${Array.from({ length: 9 }, (_, i) =>
+      `<div class="sg-tile" style="--i:${i};background:${C[(i * 2) % 5]};border-radius:${i % 3 === 1 ? '50%' : '12px'}"></div>`).join('')}</div>` + PAD('END');
+    const g = $('.sg-grid', vp);
+    return () => { const H = vp.clientHeight, t = rt(g, vp); g.classList.toggle('in', t < H * .75 && t + g.offsetHeight > H * .2); };
+  },
+  'se-03': (vp) => {
+    const S = [[12800, '+', '累積會員'], [98, '%', '客戶滿意度'], [36, '座', '服務城市']];
+    vp.innerHTML = PAD('↓ SCROLL') + `<div class="ct-wrap">${S.map((s, i) =>
+      `<div class="ct-box" style="border-color:${C[i]}"><span class="ct-num" data-to="${s[0]}">0</span><span class="ct-suf">${s[1]}</span><span class="ct-lab">${s[2]}</span></div>`).join('')}</div>` + PAD('END');
+    const boxes = $$('.ct-box', vp);
+    return () => {
+      const H = vp.clientHeight;
+      boxes.forEach((b) => {
+        const t = rt(b, vp), v = t < H * .85 && t + b.offsetHeight > 0, n = $('.ct-num', b);
+        if (v && !b._on) {
+          b._on = 1; const to = +n.dataset.to, t0 = performance.now(), tok = b._tok = Math.random();
+          const f = (now) => {
+            if (b._tok !== tok) return;
+            const k = clamp((now - t0) / 1400), e = 1 - Math.pow(1 - k, 3);
+            n.textContent = Math.round(to * e).toLocaleString();
+            if (k < 1) requestAnimationFrame(f);
+          };
+          requestAnimationFrame(f);
+        } else if (!v && b._on) { b._on = 0; b._tok = 0; n.textContent = '0'; }
+      });
+    };
+  },
+  'se-04': (vp) => {
+    vp.innerHTML = `<div class="rl-list">${Array.from({ length: 12 }, (_, i) =>
+      `<div class="rl-row"><em>${String(i + 1).padStart(2, '0')}</em><span style="max-width:${55 + (i * 13) % 35}%"></span><b style="background:${C[i % 4]}"></b></div>`).join('')}</div>`;
+    const rows = $$('.rl-row', vp);
+    return () => {
+      const H = vp.clientHeight, top = vp.getBoundingClientRect().top;
+      rows.forEach((e) => {
+        const r = e.getBoundingClientRect(), c = (r.top + r.height / 2 - top) / H;
+        e.style.transform = `rotateX(${(c - .5) * -75}deg)`;
+        e.style.opacity = 1 - clamp(Math.abs(c - .5) * 1.3);
+      });
+    };
+  },
+  'se-05': (vp) => {
+    vp.innerHTML = WRAP(3, `<div class="px-sun"></div>
+      <div class="px-far"><svg viewBox="0 0 400 200" preserveAspectRatio="none"><path d="M0 200V90L50 50L95 85L150 20L210 80L265 40L320 75L360 45L400 70V200Z" fill="#b8697a"/></svg></div>
+      <div class="px-title">PARALLAX</div>
+      <div class="px-near"><svg viewBox="0 0 400 200" preserveAspectRatio="none"><path d="M0 200V50Q60 10 130 40T260 35T400 30V200Z" fill="#3b2140"/></svg></div>`, 'px-stage') + PAD('END');
+    const w = $('.wrap', vp), sun = $('.px-sun', vp), far = $('.px-far', vp), title = $('.px-title', vp), near = $('.px-near', vp);
+    return () => {
+      const p = lp(w, vp), H = vp.clientHeight;
+      sun.style.transform = `translateY(${p * H * .3}px)`;
+      far.style.transform = `translateY(${-p * H * .12}px)`;
+      title.style.transform = `translateY(${-p * H * .55}px)`;
+      title.style.opacity = 1 - p * 1.1;
+      near.style.transform = `translateY(${-p * H * .38}px)`;
+    };
+  },
+  'se-06': (vp) => {
+    vp.innerHTML = WRAP(3, `<div class="iz-img"><span>FULL BLEED</span></div>`, 'iz-stage') + PAD('END');
+    const w = $('.wrap', vp), img = $('.iz-img', vp), cap = $('span', img);
+    return () => {
+      const p = lp(w, vp);
+      img.style.transform = `scale(${.5 + .5 * p})`;
+      img.style.borderRadius = `${(1 - p) * 36}px`;
+      cap.style.opacity = clamp((p - .6) / .35);
+    };
+  },
+  'se-07': (vp) => {
+    const T = ['探索', '規劃', '設計', '交付'];
+    vp.innerHTML = PAD('↓ SCROLL') + T.map((t, i) =>
+      `<div class="sk-card" style="top:${12 + i * 9}px;background:${C[i]};color:${i === 3 ? '#171614' : '#fff'}"><span>STEP 0${i + 1}</span><b>${t}</b></div>`).join('')
+      + `<div style="height:calc(var(--h)*.5)"></div>`;
+    const cards = $$('.sk-card', vp);
+    return () => cards.forEach((c, i) => {
+      const n = cards[i + 1]; if (!n) return;
+      const d = clamp((rt(n, vp) - rt(c, vp)) / c.offsetHeight);
+      c.style.transform = `scale(${.88 + .12 * d})`;
+      c.style.filter = `brightness(${.7 + .3 * d})`;
+    });
+  },
+  'se-08': (vp) => {
+    const Y = ['2019', '2021', '2023', '2025', '2026'];
+    vp.innerHTML = PAD('↓ 垂直滾動 → 橫向前進') + WRAP(4, `<div class="hz-track">${Y.map((y, i) =>
+      `<div class="hz-panel" style="background:${C[i]};color:${i === 3 ? '#171614' : '#fff'}"><span>MILESTONE 0${i + 1}</span><b>${y}</b></div>`).join('')}</div><div class="hz-bar"><i></i></div>`) + PAD('END');
+    const w = $('.wrap', vp), st = $('.stage', vp), tr = $('.hz-track', vp), bar = $('.hz-bar i', vp);
+    return () => {
+      const p = lp(w, vp);
+      tr.style.transform = `translateX(${-p * Math.max(0, tr.scrollWidth - st.clientWidth)}px)`;
+      bar.style.transform = `scaleX(${p})`;
+    };
+  },
+  'se-09': (vp) => {
+    const S = [['01 聚焦', '先用圓形建立視覺重心'], ['02 轉換', '切換形狀，帶出下一個功能'], ['03 延伸', '顏色與輪廓變化代表新情境'], ['04 收束', '最後收斂成清楚的結論']];
+    const ST = [
+      { r: '50%', bg: C[0], tf: 'rotate(0deg) scale(1)' },
+      { r: '16px', bg: C[1], tf: 'rotate(45deg) scale(.85)' },
+      { r: '50% 50% 50% 0', bg: C[2], tf: 'rotate(0deg) scale(1.1)' },
+      { r: '8px', bg: C[3], tf: 'rotate(180deg) scale(.7)' },
+    ];
+    vp.innerHTML = PAD('↓ SCROLL') + `<div class="st-grid"><div class="st-vis"><span class="st-num">01 / 04</span><div class="st-shape"></div></div><div>${S.map((s) =>
+      `<div class="st-step"><p><b>${s[0]}</b>${s[1]}</p></div>`).join('')}</div></div>` + PAD('END');
+    const steps = $$('.st-step', vp), shape = $('.st-shape', vp), num = $('.st-num', vp);
+    let cur = -1;
+    return () => {
+      const H = vp.clientHeight; let best = 0, bd = 1e9;
+      steps.forEach((s, i) => { const d = Math.abs(rt(s, vp) + s.offsetHeight / 2 - H / 2); if (d < bd) { bd = d; best = i; } });
+      if (best === cur) return; cur = best;
+      const s = ST[best];
+      shape.style.borderRadius = s.r; shape.style.background = s.bg; shape.style.transform = s.tf;
+      num.textContent = `0${best + 1} / 04`;
+      steps.forEach((x, i) => x.classList.toggle('on', i === best));
+    };
+  },
+  'se-10': (vp) => {
+    vp.classList.add('snap'); vp._snap = 1;
+    vp.innerHTML = `<div class="sn-dots"><div>${'<i></i>'.repeat(4)}</div></div>` + ['封面', '關於', '作品', '聯絡'].map((t, i) =>
+      `<section class="sn-page" style="background:${C[i]};color:${i === 3 ? '#171614' : '#fff'}"><div><b>0${i + 1}</b><span>${t}</span></div></section>`).join('');
+    const dots = $$('.sn-dots i', vp);
+    return () => { const i = Math.round(vp.scrollTop / vp.clientHeight); dots.forEach((d, k) => d.classList.toggle('on', k === i)); };
+  },
+  'se-11': (vp) => {
+    vp.innerHTML = WRAP(3, `<div class="cr-base">BEFORE</div><div class="cr-top">AFTER</div>`) + PAD('END');
+    const w = $('.wrap', vp), top = $('.cr-top', vp);
+    return () => { const q = clamp((lp(w, vp) - .05) / .85); top.style.clipPath = `circle(${q * 75}% at 50% 50%)`; };
+  },
+  'se-12': (vp) => {
+    vp.innerHTML = WRAP(3, `<div class="dr-in"><b>歡迎光臨</b><span>GRAND OPENING</span></div><div class="dr-l">OP</div><div class="dr-r">EN</div>`) + PAD('END');
+    const w = $('.wrap', vp), l = $('.dr-l', vp), r = $('.dr-r', vp);
+    return () => { const q = clamp((lp(w, vp) - .15) / .7); l.style.transform = `translateX(${-q * 100}%)`; r.style.transform = `translateX(${q * 100}%)`; };
+  },
+  'se-13': (vp) => {
+    const S = [['#f3e9d2', '#171614', '清晨', 'MORNING'], ['#ffb48a', '#171614', '午後', 'AFTERNOON'], ['#2e5bff', '#ffffff', '黃昏', 'DUSK'], ['#171614', '#f3f0e8', '夜晚', 'NIGHT']];
+    vp.classList.add('bgs');
+    vp.innerHTML = S.map((s) => `<section class="bs-sec" data-bg="${s[0]}" data-fg="${s[1]}"><b>${s[2]}</b><span>${s[3]}</span></section>`).join('');
+    const secs = $$('.bs-sec', vp); let cur = -1;
+    return () => {
+      const H = vp.clientHeight; let best = 0, bd = 1e9;
+      secs.forEach((s, i) => { const d = Math.abs(rt(s, vp) + s.offsetHeight / 2 - H / 2); if (d < bd) { bd = d; best = i; } });
+      if (best === cur) return; cur = best;
+      vp.style.backgroundColor = secs[best].dataset.bg; vp.style.color = secs[best].dataset.fg;
+    };
+  },
+  'se-14': (vp) => {
+    const txt = '好的滾動效果不是炫技，而是讓使用者往下看的每一步，都更清楚自己正在讀什麼。';
+    const kw = txt.indexOf('更清楚');
+    vp.innerHTML = WRAP(3, `<p class="th-text" aria-label="${txt}">${[...txt].map((c, i) =>
+      `<span aria-hidden="true"${i >= kw && i < kw + 3 ? ' data-k' : ''}>${c}</span>`).join('')}</p>`, 'th-stage') + PAD('END');
+    const w = $('.wrap', vp), sp = $$('.th-text span', vp);
+    return () => { const k = clamp((lp(w, vp) - .05) / .85) * sp.length; sp.forEach((s, i) => s.classList.toggle('lit', i < k)); };
+  },
+  'se-15': (vp) => {
+    const grp = '<span>SCROLL ✦</span><span>MOTION ✦</span><span>滾動效果 ✦</span>';
+    vp.innerHTML = WRAP(4, ['', 'o', 'a'].map((c) => `<div class="mq-row ${c}"><div class="mq-track">${grp}${grp}</div></div>`).join(''), 'mq-stage') + PAD('END');
+    const tracks = $$('.mq-track', vp);
+    const st = { last: 0, vel: 0, dir: 1, x: [0, 0, 0], init: false };
+    return {
+      update: () => {},
+      tick: () => {
+        if (!st.init) { tracks.forEach((t, i) => { st.x[i] = -(t.offsetWidth / 2) * (i === 1 ? .5 : 0); }); st.init = true; }
+        const y = vp.scrollTop, d = y - st.last; st.last = y;
+        if (Math.abs(d) > .1) st.dir = Math.sign(d);
+        st.vel += (d - st.vel) * .12;
+        const sp = .6 + Math.abs(st.vel) * .9, sk = clamp(-st.vel * 1.2, -14, 14);
+        tracks.forEach((t, i) => {
+          const w = t.offsetWidth / 2; if (!w) return;
+          st.x[i] -= sp * st.dir * (i === 1 ? -1 : 1);
+          if (st.x[i] <= -w) st.x[i] += w;
+          if (st.x[i] > 0) st.x[i] -= w;
+          t.style.transform = `translateX(${st.x[i]}px) skewX(${sk}deg)`;
+        });
+      },
+    };
+  },
+  'se-16': (vp) => {
+    vp.innerHTML = WRAP(3, `<div class="op-line">MOVE WITH THE</div><div class="op-line b">SCROLL SCROLL</div><div class="op-line c">滾動 滾動 滾動</div>`, 'op-stage') + PAD('END');
+    const w = $('.wrap', vp), L = $$('.op-line', vp);
+    return () => {
+      const p = lp(w, vp);
+      L[0].style.transform = `translateX(${10 - 60 * p}%)`;
+      L[1].style.transform = `translateX(${-50 + 60 * p}%)`;
+      L[2].style.transform = `translateX(${5 - 45 * p}%)`;
+    };
+  },
+  'se-17': (vp) => {
+    const d = 'M14 170 C 60 30, 110 30, 140 110 S 210 190, 250 90 S 280 20, 290 30';
+    vp.innerHTML = WRAP(3, `<span class="ld-pct">0%</span><svg class="ld-svg" viewBox="0 0 300 200"><path class="ld-bg" d="${d}"/><path class="ld-path" pathLength="1" d="${d}"/><circle class="ld-dot" r="7" cx="14" cy="170"/></svg>`, 'ld-stage') + PAD('END');
+    const w = $('.wrap', vp), path = $('.ld-path', vp), dot = $('.ld-dot', vp), pct = $('.ld-pct', vp);
+    let len = 0;
+    return () => {
+      const p = clamp((lp(w, vp) - .05) / .85);
+      path.style.strokeDashoffset = 1 - p;
+      try { if (!len) len = path.getTotalLength(); const pt = path.getPointAtLength(len * p); dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y); } catch (e) {}
+      pct.textContent = Math.round(p * 100) + '%';
+    };
+  },
+  'se-18': (vp) => {
+    vp.innerHTML = `<div class="pg-head"><div class="pg-row"><span>ARTICLE · 5 MIN READ</span><span class="pg-pct">0%</span></div><div class="pg-bar"></div></div><div class="pg-art"><div class="pg-h"></div>${LINES(3)}<div class="pg-img"></div>${LINES(4)}</div>`;
+    const bar = $('.pg-bar', vp), pct = $('.pg-pct', vp);
+    return () => { const p = clamp(vp.scrollTop / (vp.scrollHeight - vp.clientHeight)); bar.style.transform = `scaleX(${p})`; pct.textContent = Math.round(p * 100) + '%'; };
+  },
+  'se-19': (vp) => {
+    vp.innerHTML = `<header class="sh-head"><span class="sh-logo">BRAND</span><nav class="sh-nav"><i></i><i></i><i></i><b>聯絡我們</b></nav></header><div class="sh-hero">HERO</div>${LINES(6)}`;
+    const h = $('.sh-head', vp);
+    return () => h.classList.toggle('s', vp.scrollTop > 24);
+  },
+  'se-20': (vp) => {
+    vp.innerHTML = `<header class="hd-head"><span>BRAND</span><span class="hd-st">↓ 收起 · ↑ 出現</span></header><div class="hd-gap"></div>${LINES(10)}`;
+    const h = $('.hd-head', vp); let last = 0;
+    return () => {
+      const y = vp.scrollTop;
+      if (Math.abs(y - last) < 4) return;
+      h.classList.toggle('h', y > last && y > 60);
+      last = y;
+    };
+  },
+};
+
+/* ---------- mounting & auto demo ---------- */
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let AUTO = !RM, modalOpen = false;
+const live = new Set();
+const visIO = new IntersectionObserver((es) => es.forEach((e) => { const vp = e.target.querySelector('.vp'); if (vp) vp._vis = e.isIntersecting; }));
+
+function mount(vp, id, isModal) {
+  if (vp.clientHeight) vp.style.setProperty('--h', vp.clientHeight + 'px');
+  const r = B[id](vp);
+  const o = typeof r === 'function' ? { update: r } : r;
+  Object.assign(vp, { _u: o.update || (() => {}), _t: o.tick, _pos: 0, _dir: 1, _pause: 0, _user: 0, _next: 0, _modal: !!isModal, _vis: !!isModal });
+  vp.addEventListener('scroll', () => {
+    if (Math.abs(vp.scrollTop - vp._pos) > 3) vp._pos = vp.scrollTop;
+    if (!vp._q) { vp._q = 1; requestAnimationFrame(() => { vp._q = 0; vp._u(); }); }
+  }, { passive: true });
+  const mark = () => { vp._user = performance.now() + 3500; vp.parentNode.classList.add('touched'); };
+  ['wheel', 'touchstart', 'pointerdown', 'keydown'].forEach((ev) => vp.addEventListener(ev, mark, { passive: true }));
+  vp.addEventListener('mouseenter', () => { vp._hover = 1; });
+  vp.addEventListener('mouseleave', () => { vp._hover = 0; vp._pos = vp.scrollTop; });
+  const host = vp.closest('.card') || vp.parentNode;
+  host.addEventListener('mouseenter', () => { vp._cardHover = 1; vp._pos = vp.scrollTop; vp._pause = 0; vp._next = 0; });
+  host.addEventListener('mouseleave', () => { vp._cardHover = 0; });
+  vp.tabIndex = 0;
+  live.add(vp);
+  vp._u();
+}
+
+let lastT = performance.now();
+function loop(t) {
+  const dt = Math.min(50, t - lastT); lastT = t;
+  for (const vp of live) {
+    if (!vp.isConnected) { live.delete(vp); continue; }
+    if (!vp._vis || (modalOpen && !vp._modal)) continue;
+    const run = AUTO ? (!vp._hover && t > vp._user) : (vp._cardHover && t > vp._user);
+    if (run) {
+      const H = vp.clientHeight, max = vp.scrollHeight - H;
+      if (vp._snap) {
+        if (t > vp._next) {
+          let ny = vp.scrollTop + H * vp._dir;
+          if (ny > max + 2 || ny < -2) { vp._dir *= -1; ny = vp.scrollTop + H * vp._dir; }
+          vp.scrollTo({ top: ny, behavior: 'smooth' });
+          vp._next = t + 1800;
+        }
+      } else if (t > vp._pause) {
+        vp._pos += .085 * dt * vp._dir;
+        if (vp._pos >= max) { vp._pos = max; vp._dir = -1; vp._pause = t + 1100; }
+        else if (vp._pos <= 0) { vp._pos = 0; vp._dir = 1; vp._pause = t + 1100; }
+        vp.scrollTop = vp._pos;
+      }
+    }
+    if (vp._t && !RM) vp._t();
+  }
+  requestAnimationFrame(loop);
+}
+
+/* ---------- render cards ---------- */
+const grid = $('#grid');
+grid.innerHTML = DATA.map((d) => `
+  <article class="card" data-id="${d.id}">
+    <div class="pv"><div class="vp" aria-label="${d.zh} 預覽，可在框內滾動"></div><span class="hint">↕ 框內可滾動</span></div>
+    <div class="meta">
+      <div class="row1"><span>${d.id.toUpperCase()}</span><span class="cat" style="--c:${catColor(d.cat)}">${d.cat}</span></div>
+      <h3 data-open="${d.id}">${d.zh}</h3>
+      <p class="en">${d.en}</p>
+      <p class="desc">${d.desc}</p>
+      <div class="tags"><span>${d.lv}</span><span>${d.tech}</span></div>
+      <button class="more" data-open="${d.id}">看說明與提示詞 →</button>
+    </div>
+  </article>`).join('') + '<p class="empty" hidden id="empty">找不到符合的效果，換個關鍵字試試。</p>';
+
+$$('.card', grid).forEach((card) => { mount($('.vp', card), card.dataset.id); visIO.observe($('.pv', card)); });
+
+/* ---------- filter ---------- */
+let curCat = '全部', q = '';
+const chips = $('#chips');
+chips.innerHTML = [{ k: '全部', c: 'var(--ink)' }, ...CATS].map((c) =>
+  `<button class="chip${c.k === '全部' ? ' on' : ''}" data-cat="${c.k}" style="--c:${c.c}">${c.k === '全部' ? '' : '<i></i>'}${c.k}<small>${c.k === '全部' ? DATA.length : DATA.filter((d) => d.cat === c.k).length}</small></button>`).join('');
+chips.addEventListener('click', (e) => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  curCat = b.dataset.cat; $$('.chip', chips).forEach((x) => x.classList.toggle('on', x === b)); apply();
+});
+$('#q').addEventListener('input', (e) => { q = e.target.value.trim().toLowerCase(); apply(); });
+
+function visibleList() {
+  return DATA.filter((d) => (curCat === '全部' || d.cat === curCat) &&
+    (!q || [d.id, d.zh, d.en, d.cat, d.desc, d.use, d.tech].join(' ').toLowerCase().includes(q)));
+}
+function apply() {
+  const ids = new Set(visibleList().map((d) => d.id));
+  $$('.card', grid).forEach((c) => { c.hidden = !ids.has(c.dataset.id); });
+  $('#empty').hidden = ids.size > 0;
+  $('#count').textContent = `顯示 ${ids.size} / ${DATA.length}`;
+  requestAnimationFrame(() => live.forEach((vp) => { if (vp.clientHeight) { vp.style.setProperty('--h', vp.clientHeight + 'px'); vp._u(); } }));
+}
+apply();
+
+/* ---------- auto toggle ---------- */
+const autoBtn = $('#auto');
+autoBtn.setAttribute('aria-pressed', String(AUTO));
+autoBtn.addEventListener('click', () => {
+  AUTO = !AUTO; autoBtn.setAttribute('aria-pressed', String(AUTO));
+  live.forEach((vp) => { vp._pos = vp.scrollTop; });
+  syncHints();
+});
+function syncHints() {
+  $$('.hint').forEach((h) => { h.textContent = AUTO ? '↕ 框內可滾動' : '▶ 滑過卡片播放'; });
+}
+syncHints();
+
+/* ---------- modal ---------- */
+const modal = $('#modal');
+let curId = null;
+function openModal(id) {
+  const d = DATA.find((x) => x.id === id); if (!d) return;
+  curId = id; modalOpen = true;
+  modal.hidden = false; document.body.style.overflow = 'hidden';
+  $('#m-id').textContent = d.id.toUpperCase();
+  const mc = $('#m-cat'); mc.textContent = d.cat; mc.style.setProperty('--c', catColor(d.cat));
+  $('#m-title').textContent = d.zh; $('#m-en').textContent = d.en;
+  $('#m-desc').textContent = d.desc; $('#m-use').textContent = d.use;
+  $('#m-tech').textContent = `${d.how}（${d.lv} · ${d.tech}）`; $('#m-tip').textContent = d.tip;
+  $('#m-code').textContent = promptOf(d);
+  const pv = $('#m-pv'); pv.className = 'pv big'; pv.innerHTML = '<div class="vp"></div><span class="hint">↕ 框內可滾動</span>';
+  mount($('.vp', pv), id, true);
+  syncHints();
+  $('.mbox').scrollTop = 0;
+  if (location.hash !== '#' + id) location.hash = id;
+}
+function closeModal(fromRoute) {
+  if (!modalOpen) return;
+  modalOpen = false; curId = null; modal.hidden = true; document.body.style.overflow = '';
+  $('#m-pv').innerHTML = '';
+  if (!fromRoute && location.hash) location.hash = '';
+}
+function step(n) {
+  const list = visibleList(); const pool = list.length ? list : DATA;
+  let i = pool.findIndex((d) => d.id === curId); i = (i + n + pool.length) % pool.length;
+  openModal(pool[i].id);
+}
+grid.addEventListener('click', (e) => { const t = e.target.closest('[data-open]'); if (t) openModal(t.dataset.open); });
+$('#m-close').addEventListener('click', () => closeModal());
+modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+$('#m-prev').addEventListener('click', () => step(-1));
+$('#m-next').addEventListener('click', () => step(1));
+addEventListener('keydown', (e) => {
+  if (!modalOpen) return;
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'ArrowRight' && !e.target.closest('.vp')) step(1);
+  if (e.key === 'ArrowLeft' && !e.target.closest('.vp')) step(-1);
+});
+$('#m-copy').addEventListener('click', async (e) => {
+  const btn = e.currentTarget, code = $('#m-code');
+  try { await navigator.clipboard.writeText(code.textContent); btn.textContent = '已複製 ✓'; }
+  catch (err) {
+    const r = document.createRange(); r.selectNodeContents(code);
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    btn.textContent = '已選取，請按 Ctrl / ⌘ + C';
+  }
+  setTimeout(() => { btn.textContent = '複製提示詞'; }, 2000);
+});
+
+function route() {
+  const m = location.hash.match(/^#(se-\d\d)$/);
+  if (m && B[m[1]]) { if (curId !== m[1]) openModal(m[1]); } else closeModal(true);
+}
+addEventListener('hashchange', route);
+route();
+
+addEventListener('resize', () => live.forEach((vp) => { if (vp.clientHeight) { vp.style.setProperty('--h', vp.clientHeight + 'px'); vp._u(); } }));
+requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
