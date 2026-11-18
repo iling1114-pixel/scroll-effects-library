@@ -244,6 +244,107 @@ pre code{font:inherit}
 .hd-head span:last-child{font:500 10px var(--mono);opacity:.7}
 .hd-head.h{transform:translateY(-100%)}
 .hd-gap{height:14px}
+/* se-21 */
+.bf-img{height:130px;margin:0 14px 12px;border-radius:12px;display:flex;align-items:flex-end;padding:10px;color:#fff;font:500 10px var(--mono);letter-spacing:.12em;will-change:filter,transform}
+/* se-22 */
+.cs-line{overflow:hidden;padding:4px 18px;margin-bottom:calc(var(--h)*.16);font:900 34px/1.15 var(--disp),'Noto Sans TC',sans-serif;white-space:nowrap}
+.cs-line span{display:inline-block;transform:translateY(110%) rotate(10deg);opacity:0;transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .4s;transition-delay:calc(var(--i)*40ms)}
+.cs-line.in span{transform:none;opacity:1}
+/* se-23 */
+.us-stage{display:flex;flex-direction:column;justify-content:center;gap:10px;padding:0 20px;background:var(--ink);color:#f3f0e8}
+.us-a{font:500 22px/1.2 var(--mono);white-space:pre}
+.us-b{font:900 30px/1.2 'Noto Sans TC',sans-serif;color:var(--acc)}
+.us-stage .x{color:#6f6a60}
+.us-p{position:absolute;top:12px;left:20px;font:500 10px var(--mono);letter-spacing:.1em;color:#8f897d}
+/* se-24 */
+.fl-list{padding:calc(var(--h)*.4) 14px;overflow:hidden}
+.fl-row{height:48px;margin-bottom:8px;background:#fff;border-radius:11px;display:flex;align-items:center;gap:12px;padding:0 12px;will-change:transform,opacity}
+.fl-row b{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;font:700 13px var(--disp);flex:none}
+.fl-row strong{display:block;font:700 13px var(--disp)}
+.fl-row span{display:block;width:90px;height:6px;border-radius:3px;background:#d6d1c4;margin-top:5px}
+/* se-25 */
+.cf-card{height:140px;margin:0 30px calc(var(--h)*.2);perspective:800px}
+.cf-in{position:relative;height:100%;transform-style:preserve-3d;transform:rotateY(180deg);transition:transform .9s cubic-bezier(.3,1.3,.5,1)}
+.cf-card.in .cf-in{transform:none}
+.cf-f,.cf-b{position:absolute;inset:0;border-radius:14px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:grid;place-items:center}
+.cf-f{color:#fff;text-align:center}
+.cf-f b{display:block;font:700 40px/1 var(--disp)}
+.cf-f span{font:500 10px var(--mono);letter-spacing:.2em}
+.cf-b{transform:rotateY(180deg);background:var(--ink) repeating-linear-gradient(45deg,transparent 0 8px,rgba(255,255,255,.07) 8px 16px);color:#f3f0e8;font-size:30px}
+/* se-26 */
+.pc-frame{position:relative;height:150px;margin:0 14px 14px;border-radius:12px;overflow:hidden}
+.pc-img{position:absolute;left:0;right:0;top:-20%;height:140%;will-change:transform}
+.pc-frame span{position:absolute;left:10px;bottom:10px;color:#fff;font:500 10px var(--mono);letter-spacing:.12em}
+/* se-27 */
+.zf-stage{background:radial-gradient(circle at 50% 50%,#2c2935,#171614 70%);perspective:420px}
+.zf-it{position:absolute;font:700 34px/1 var(--disp),'Noto Sans TC',sans-serif;white-space:nowrap;will-change:transform,opacity}
+/* se-28 */
+.is-stage{background:linear-gradient(#f2ede2,#d9d2c2)}
+.is-cv{width:100%;height:100%;display:block}
+.is-lab{position:absolute;left:12px;top:12px;font:500 10px var(--mono);color:var(--mute);letter-spacing:.1em}
+/* se-29 */
+.pt-stage{display:grid;place-items:center}
+.pt-box{width:86%;display:flex;flex-direction:column;gap:8px}
+.pt-step{font:500 10px var(--mono);letter-spacing:.1em;color:var(--mute)}
+.pt-t{margin:0;font:900 26px/1.2 'Noto Sans TC',sans-serif}
+.pt-img{height:calc(var(--h)*.3);border-radius:12px}
+.pt-p{margin:0;font-size:13px;color:#4a463f}
+.pt-btn{align-self:flex-start;background:var(--acc);color:#fff;font-size:12px;padding:7px 12px;border-radius:99px}
+/* se-30 */
+.cv-stage{perspective:600px;background:var(--ink)}
+.cv-row{position:absolute;inset:0;transform-style:preserve-3d}
+.cv-it{position:absolute;left:50%;top:50%;width:118px;height:118px;border-radius:10px;display:grid;place-items:center;color:#fff;font:700 30px var(--disp);box-shadow:0 18px 30px rgba(0,0,0,.45);will-change:transform}
+.cv-lab{position:absolute;left:12px;top:12px;font:500 10px var(--mono);color:#8f897d;letter-spacing:.1em}
+/* se-31 */
+.iw-box{position:relative;height:140px;margin:0 14px 14px;border-radius:12px;overflow:hidden}
+.iw-img{position:absolute;inset:0;will-change:clip-path,transform}
+.iw-box span{position:absolute;right:10px;top:10px;font-size:11px;font-weight:700;background:rgba(255,255,255,.85);padding:3px 8px;border-radius:99px}
+/* se-32 */
+.tm-stage{background:var(--ink);display:grid;place-items:center}
+.tm-bg{position:absolute;inset:0;opacity:0}
+.tm-txt{font:700 96px/1 var(--disp);letter-spacing:-.04em;color:transparent;-webkit-background-clip:text;background-clip:text;background-size:cover;will-change:transform}
+/* se-33 */
+.mp-stage{display:grid;place-items:center}
+.mp-svg{width:78%;height:78%}
+.mp-lab{position:absolute;left:12px;top:12px;font:500 10px var(--mono);color:var(--mute);letter-spacing:.12em}
+/* se-34 */
+.sp-grid{display:grid;grid-template-columns:32% 1fr;gap:4px;padding:14px 0 0 12px}
+.sp-toc{position:sticky;top:12px;align-self:start;display:flex;flex-direction:column;border-left:2px solid #d6d1c4}
+.sp-toc a{font-size:12px;padding:5px 8px;color:var(--mute);cursor:pointer;margin-left:-2px;border-left:2px solid transparent;transition:.25s}
+.sp-toc a.on{color:var(--ink);font-weight:700;border-left-color:var(--acc)}
+.sp-sec{padding-bottom:18px}
+.sp-sec h5{margin:0 14px 10px;font:800 16px 'Noto Sans TC',sans-serif}
+/* se-35 */
+.ai-idx{position:sticky;top:0;height:0;z-index:3}
+.ai-idx div{position:absolute;right:10px;top:calc(var(--h)/2);transform:translateY(-50%);display:flex;flex-direction:column;gap:3px;align-items:center}
+.ai-idx i{font:700 10px/1.4 var(--disp);font-style:normal;color:var(--mute);transition:transform .25s,color .25s;cursor:pointer}
+.ai-idx i.on{color:var(--acc)}
+.ai-grp h6{position:sticky;top:0;margin:0;padding:6px 14px;font:700 12px var(--disp);background:#e0dbce;z-index:2}
+.ai-row{display:flex;align-items:center;gap:10px;padding:8px 40px 8px 14px;font-size:13px;border-bottom:1px solid #ddd8cb}
+.ai-row b{width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font:700 11px var(--disp)}
+/* se-36 */
+.sw-head{position:sticky;top:0;z-index:3;height:36px;display:flex;justify-content:space-between;align-items:center;padding:0 14px;background:#fff;font:700 13px 'Noto Sans TC',sans-serif}
+.sw-head span{font:500 10px var(--mono);color:var(--mute)}
+.sw-st{position:sticky;top:36px;height:0;z-index:2}
+.sw-st::after{content:'';position:absolute;left:0;right:0;top:0;height:16px;background:linear-gradient(rgba(23,22,20,.25),transparent);opacity:var(--o,0);transition:opacity .25s}
+.sw-sb{position:sticky;bottom:0;height:0;z-index:2}
+.sw-sb::before{content:'';position:absolute;left:0;right:0;bottom:0;height:18px;background:linear-gradient(transparent,rgba(23,22,20,.25));opacity:var(--o,1);transition:opacity .25s}
+.sw-row{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid #ddd8cb;font:500 11px var(--mono)}
+.sw-row i{flex:1;height:6px;border-radius:3px;background:#d3cdbf}
+.sw-row b{font:700 12px var(--disp)}
+/* se-37 */
+.bt-wrap{position:sticky;bottom:0;height:0;z-index:3}
+.bt-btn{position:absolute;right:12px;bottom:40px;width:44px;height:44px;border:0;padding:0;border-radius:50%;background:#fff;box-shadow:0 6px 16px rgba(0,0,0,.15);cursor:pointer;display:grid;place-items:center;opacity:0;transform:scale(.6) translateY(10px);transition:opacity .3s,transform .3s;pointer-events:none}
+.bt-btn.show{opacity:1;transform:none;pointer-events:auto}
+.bt-btn svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.bt-bg{fill:none;stroke:#e5e0d4;stroke-width:3}
+.bt-ring{fill:none;stroke:var(--acc);stroke-width:3;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.bt-btn span{position:relative;font:700 16px var(--disp);color:var(--ink)}
+/* se-38 */
+.ss-tag{position:sticky;top:0;z-index:2;background:var(--ink);color:#f3f0e8;font:500 10px var(--mono);letter-spacing:.08em;padding:9px 14px}
+.ss-row{display:flex;align-items:center;gap:12px;padding:0 14px;height:64px;border-bottom:1px solid #ddd8cb}
+.ss-row em{font:700 28px var(--disp);font-style:normal;width:46px}
+.ss-row span{flex:1;height:8px;border-radius:4px;background:#d3cdbf}
 </style>
 </head>
 <body>
@@ -254,11 +355,11 @@ pre code{font:inherit}
     <h1>滾動效果<em>圖鑑</em><small>A field guide to scroll interactions</small></h1>
   </div>
   <div>
-    <p class="lead">整理 20 種網站上常見又耐用的滾動互動。每張卡片都是可以直接在框內滾動的示意，點開可看說明、適用情境、交接備註，以及可以直接貼給 AI 實作的提示詞。</p>
+    <p class="lead">整理 <span class="n-fx">20</span> 種網站上常見又耐用的滾動互動。每張卡片都是可以直接在框內滾動的示意，點開可看說明、適用情境、交接備註，以及可以直接貼給 AI 實作的提示詞。</p>
     <div class="stats">
-      <div><b>20</b><span>種效果</span></div>
+      <div><b class="n-fx">20</b><span>種效果</span></div>
       <div><b>6</b><span>個分類</span></div>
-      <div><b>20</b><span>組提示詞</span></div>
+      <div><b class="n-fx">20</b><span>組提示詞</span></div>
     </div>
   </div>
 </header>
@@ -421,7 +522,99 @@ const DATA = [
     use:'行動版網站、文章頁、內容型網站。',
     how:'比較這次與上次的 scrollY 判斷方向，往下且超過門檻時加上 .is-hidden。',
     tip:'加 5–10px 的方向門檻，避免手指輕微抖動造成導覽列閃爍。' },
+  { id:'se-21', zh:'模糊轉清晰', en:'Blur to Focus', cat:'進場揭露', lv:'基礎', tech:'CSS filter + 進度',
+    desc:'圖片進入畫面時從模糊、去色慢慢變清晰，像相片顯影。',
+    use:'作品集、攝影作品、品牌形象圖。',
+    how:'依元素進入畫面的程度，連續調整 blur、grayscale 與 scale。',
+    tip:'filter 比 transform 吃效能，一頁不要同時套太多張；手機上可以把模糊值調小。' },
+  { id:'se-22', zh:'逐字拆字進場', en:'Char Split Reveal', cat:'進場揭露', lv:'基礎', tech:'IO + CSS 變數',
+    desc:'標題拆成單字，依序從遮罩下方旋轉滑入。',
+    use:'主標題、章節標題、品牌標語。',
+    how:'文字拆成 span，外層 overflow: hidden 當遮罩，進入畫面後加 class，各字用 --i 錯開延遲。',
+    tip:'拆字後在外層加 aria-label 保留原文；中文字數多時，延遲縮短到 25–30ms。' },
+  { id:'se-23', zh:'亂碼解碼', en:'Text Unscramble', cat:'進場揭露', lv:'中階', tech:'Scroll 進度 + 隨機字元',
+    desc:'文字一開始是亂碼，隨捲動從左到右逐字解碼成正確內容。',
+    use:'科技感標題、活動倒數、數位產品介紹。',
+    how:'依進度決定前幾個字已解碼，其餘位置每次捲動時換成隨機字元。',
+    tip:'英文用等寬字體才不會抖動；中文亂碼的字元池，挑跟品牌相關的字會更有味道。' },
+  { id:'se-24', zh:'側邊飛入', en:'Fly-in / Fly-out', cat:'進場揭露', lv:'中階', tech:'Scroll 位置計算',
+    desc:'列表項目從右側飛入畫面，捲到上方時再往左側飛出。',
+    use:'聯絡人清單、新聞列表、商品清單。',
+    how:'依每列在畫面中的位置計算：靠下段往右偏、靠上段往左偏，同時調整透明度。',
+    tip:'位移只用 translateX；外層加 overflow-x: hidden，避免出現橫向捲軸。' },
+  { id:'se-25', zh:'3D 翻牌', en:'Card Flip', cat:'進場揭露', lv:'基礎', tech:'IO + 3D transform',
+    desc:'卡片進入畫面時沿 Y 軸翻轉，從背面翻到正面。',
+    use:'會員權益、優惠卡、團隊介紹。',
+    how:'正反兩面疊放並隱藏背面，外層加 perspective，進入畫面時把旋轉從 180° 轉回 0°。',
+    tip:'兩面都要加 backface-visibility: hidden，Safari 要多加 -webkit- 前綴。' },
+  { id:'se-26', zh:'框內視差', en:'Parallax Crop', cat:'視差景深', lv:'基礎', tech:'Scroll 位移',
+    desc:'圖片在固定的裁切框裡移動得比框慢，像緩慢推移的鏡頭。',
+    use:'案例封面、文章大圖、作品集縮圖。',
+    how:'圖片高度設為框的 140%，依框在畫面中的位置 translateY，移動範圍不超出框。',
+    tip:'比整頁視差低調、也不容易讓人頭暈；圖片上下要各預留 20% 可以被裁掉的空間。' },
+  { id:'se-27', zh:'3D 景深穿越', en:'Z-axis Fly-through', cat:'視差景深', lv:'進階', tech:'perspective + translateZ',
+    desc:'文字和圖形沿 Z 軸迎面而來，捲動時像穿越一個空間。',
+    use:'品牌開場、活動主視覺、沉浸式首頁。',
+    how:'舞台設 perspective，每個元素放在不同深度，依進度往前推，靠近鏡頭後淡出。',
+    tip:'元素控制在 10 個左右；經過鏡頭的元素要隱藏，避免突然放大塞滿畫面。' },
+  { id:'se-28', zh:'影格序列播放', en:'Image Sequence Scrub', cat:'黏貼敘事', lv:'進階', tech:'canvas + Scroll 進度',
+    desc:'把影片拆成一張張影格畫在 canvas 上，跟著捲動逐格播放、往回捲會倒轉。',
+    use:'產品 360° 展示、開箱動畫、電影感開場。',
+    how:'sticky 舞台內放 canvas，依進度算出目前影格，畫出對應的圖片。（示意卡片用程式即時畫出旋轉方塊代替影格）',
+    tip:'影格建議 60–120 張並用 WebP 壓縮，先預載前幾張；手機版可以減半張數。' },
+  { id:'se-29', zh:'釘選多段時間軸', en:'Pinned Timeline', cat:'黏貼敘事', lv:'中階', tech:'sticky + 分段進度',
+    desc:'區塊固定在畫面上，標題、圖片、文字、按鈕依序出場，像一段分鏡。',
+    use:'新品發表、功能亮點、品牌故事。',
+    how:'把 0～1 的捲動進度切成四段，每段控制一個元素的出場。',
+    tip:'段與段之間留一點空白，節奏會更清楚；最後一段結束後再停留一下才放開。' },
+  { id:'se-30', zh:'封面流輪播', en:'Cover Flow', cat:'黏貼敘事', lv:'進階', tech:'sticky + 3D transform',
+    desc:'捲動時一排封面橫向切換，中間那張正面放大，兩側傾斜往後退。',
+    use:'專輯、書籍、作品集、商品系列。',
+    how:'依進度算出目前中心位置，每張依距離決定位移、旋轉角度、深度與層級。',
+    tip:'封面 5–9 張最剛好；離中心太遠的封面要淡出，畫面才不會亂。' },
+  { id:'se-31', zh:'矩形擦除', en:'Inset Wipe', cat:'遮罩轉場', lv:'基礎', tech:'clip-path: inset()',
+    desc:'圖片用矩形遮罩「擦」出來，可以由上而下、由中間展開或由左而右。',
+    use:'案例大圖、章節封面、商品主圖。',
+    how:'依進入畫面的程度調整 clip-path: inset() 的四邊數值，同時把圖片從 115% 縮回 100%。',
+    tip:'clip-path 效能好、邊緣俐落，比用遮罩圖片更好維護。' },
+  { id:'se-32', zh:'文字鏤空遮罩', en:'Text Mask Zoom', cat:'遮罩轉場', lv:'中階', tech:'background-clip: text + scale',
+    desc:'大字裡透出背景圖，捲動時字不斷放大，最後變成滿版畫面。',
+    use:'首屏主視覺、品牌名稱、章節轉場。',
+    how:'文字用 background-clip: text 透出圖片，依進度放大，後段再淡入滿版背景。',
+    tip:'放大要用前慢後快的曲線；字體選粗體，透出的圖才看得清楚。' },
+  { id:'se-33', zh:'SVG 形狀變形', en:'SVG Morph', cat:'遮罩轉場', lv:'進階', tech:'path 插值',
+    desc:'圖形隨捲動從圓形變成花形、方形、不規則形，顏色也跟著漸變。',
+    use:'品牌識別、裝飾圖形、步驟說明。',
+    how:'每個形狀用相同數量的點描述，依進度在兩個形狀之間插值，重新產生 path。',
+    tip:'每個形狀的點數一定要一樣，插值才不會亂跳；複雜的設計稿圖形建議改用 GSAP MorphSVG。' },
+  { id:'se-34', zh:'目錄同步高亮', en:'Scroll Spy TOC', cat:'導覽進度', lv:'基礎', tech:'Scroll 位置判斷',
+    desc:'側邊目錄會依目前讀到的段落自動高亮，點目錄可以跳到該段。',
+    use:'長篇文章、說明文件、條款頁、FAQ。',
+    how:'找出最後一個頂端越過畫面上方 30% 的段落，切換目錄的高亮 class。',
+    tip:'點目錄跳轉時，段落用 scroll-margin-top 預留固定導覽列的高度。' },
+  { id:'se-35', zh:'字母索引側欄', en:'Alphabet Indicator', cat:'導覽進度', lv:'中階', tech:'sticky + Scroll 判斷',
+    desc:'名單右側的 A–Z 索引會依目前分組放大高亮，分組標題也會黏在頂部。',
+    use:'聯絡人、品牌列表、通訊錄、詞彙表。',
+    how:'每組標題 sticky；找出目前分組，讓對應字母高亮，相鄰字母稍微放大。',
+    tip:'點字母可以直接跳到該組；沒有資料的字母要設為灰色、不可點。' },
+  { id:'se-36', zh:'捲動陰影', en:'Scroll Shadow', cat:'導覽進度', lv:'基礎', tech:'sticky + 狀態判斷',
+    desc:'可捲動區塊在內容被切到的那一側出現陰影，提示「還有東西」。',
+    use:'表格、側欄選單、行動版選單、對話框內容。',
+    how:'已經往下捲時頂部出現陰影，還沒捲到底時底部出現陰影。',
+    tip:'也可以用 CSS animation-timeline: scroll() 做成純 CSS 版本。' },
+  { id:'se-37', zh:'回到頂部進度環', en:'Back-to-Top Ring', cat:'導覽進度', lv:'基礎', tech:'Scroll 進度 + SVG',
+    desc:'右下角的回到頂部按鈕外圈是一個進度環，同時顯示讀了多少。',
+    use:'長篇文章、商品詳情頁、說明文件。',
+    how:'捲過一段距離後按鈕出現，外圈 SVG 用 stroke-dashoffset 顯示進度，點擊平滑回到頂部。',
+    tip:'按鈕要加 aria-label；手機上注意不要擋到底部的固定按鈕或客服圖示。' },
+  { id:'se-38', zh:'慣性平滑捲動', en:'Smooth Scroll', cat:'導覽進度', lv:'中階', tech:'wheel 攔截 + 緩動',
+    desc:'用滑鼠滾輪捲動時帶一點慣性，畫面平滑地滑到目標位置。（請在預覽框內用滾輪試試）',
+    use:'品牌形象站、作品集、搭配大量滾動動畫的頁面。',
+    how:'攔截滾輪事件、記錄目標位置，每幀讓目前位置以固定比例追上目標。',
+    tip:'正式專案建議直接用 Lenis 套件；觸控裝置保留原生捲動，不要攔截。' },
 ];
+// 依分類排序（同分類內維持編號順序）
+DATA.sort((a, b) => CATS.findIndex((c) => c.k === a.cat) - CATS.findIndex((c) => c.k === b.cat));
 
 /* ---------- prompts ---------- */
 const P = {
@@ -532,6 +725,111 @@ const P = {
     '加上約 6px 的方向門檻，避免手指輕微抖動造成閃爍',
     '收起與出現用 translateY，轉場 0.35 秒',
     '回到頁面頂端時一定要顯示']],
+  'se-21': ['圖片捲進畫面時，從模糊、黑白、微微放大的狀態，逐漸變成清晰、彩色、原尺寸。', [
+    '套用在［作品圖／攝影圖］',
+    '剛進入畫面底部時 blur 約 14px、灰階 100%、scale 1.06，捲到畫面約 1/3 處時完全清晰',
+    '效果隨捲動連續變化，往回捲會再變模糊',
+    '優先用 CSS animation-timeline: view() 搭配 animation-range: entry，並提供 JS 後備',
+    '同時套用的圖片控制在 6 張以內，避免效能問題']],
+  'se-22': ['標題進入畫面時，每個字依序從下方遮罩中帶點旋轉滑上來。', [
+    '套用在［主標題／章節標題］',
+    '每行外層 overflow: hidden，字從 translateY(110%) rotate(10deg) 回到原位',
+    '每個字間隔 40ms，轉場 0.6 秒，緩動用 cubic-bezier(.2,.8,.2,1)',
+    '用 IntersectionObserver 觸發，只播一次',
+    '英文以字母拆開、保留空白；拆字後在外層加 aria-label 保留原文']],
+  'se-23': ['一段文字一開始顯示亂碼，隨捲動由左到右逐字「解碼」成正確內容。', [
+    '使用 sticky 區段（外層約 300vh），文字置中',
+    '已解碼的字顯示正常顏色，未解碼的位置顯示隨機字元、顏色較淡',
+    '英文亂碼用 A–Z 與符號，中文亂碼用［自訂字元池］',
+    '英文使用等寬字體，避免寬度抖動；空白與標點保持不動',
+    '在外層加 aria-label 保留原文，給螢幕閱讀器朗讀']],
+  'se-24': ['列表項目捲進畫面時從右側飛入，捲到畫面上方時往左側飛出，中間區段保持原位。', [
+    '畫面下方 28% 範圍內：越靠底部越往右偏（最多 110%），也越透明',
+    '畫面上方 28% 範圍內：越靠頂部越往左偏，也越透明',
+    '中間區段完全不透明、不偏移',
+    '優先用 CSS view() 時間軸搭配 entry / exit range，提供 JS 後備',
+    '外層 overflow-x: hidden，避免出現橫向捲軸']],
+  'se-25': ['卡片進入畫面時沿 Y 軸翻轉，從背面的花紋翻到正面內容。', [
+    '外層 perspective 約 800px，內層 transform-style: preserve-3d',
+    '正反兩面絕對定位疊放，都設 backface-visibility: hidden（含 -webkit- 前綴）',
+    '初始 rotateY(180deg)，進入畫面後轉回 0，轉場 0.9 秒、帶輕微回彈',
+    '多張卡片依序延遲 100ms 翻轉，只播一次']],
+  'se-26': ['圖片放在固定尺寸的裁切框裡，捲動時圖片移動得比框慢，產生細緻的視差。', [
+    '框 overflow: hidden，圖片高度為框的 140%，上下各超出 20%',
+    '依框中心在畫面中的位置，圖片 translateY 約 ±14%，不能露出框外的空白',
+    '圖片使用 object-fit: cover',
+    '優先用 CSS view() 時間軸實作，提供 JS 後備',
+    '開啟「減少動態效果」時圖片固定不動']],
+  'se-27': ['舞台上的文字與圖形分布在不同深度，捲動時沿 Z 軸迎面飛來，像穿越一個空間。', [
+    '使用 sticky 區段（外層約 400vh），舞台 perspective 約 420px',
+    '每個元素間隔約 420px 深度，依捲動進度整體往前推',
+    '遠方元素較透明；靠近鏡頭（超過約 300px）時淡出並隱藏',
+    '元素 10 個左右，位置分散在畫面四周',
+    '開啟「減少動態效果」時，改為一般的淡入列表']],
+  'se-28': ['把一段影片拆成連續影格畫在 canvas 上，捲動時逐格播放，往回捲會倒轉。', [
+    '影格放在［資料夾路徑］，檔名依序編號（frame_001.webp…），共［張數］張',
+    '使用 sticky 區段（外層約 300vh），canvas 滿版，並依裝置像素比調整解析度',
+    '依捲動進度計算影格編號，用 requestAnimationFrame 繪製，同一張不重複畫',
+    '先預載第 1 張與前 10 張，其餘在背景載入；手機版改用一半的影格數',
+    '開啟「減少動態效果」時只顯示第一張']],
+  'se-29': ['一個區塊固定在畫面上，捲動時依序讓標題、圖片、說明文字、按鈕出場，像一段分鏡。', [
+    '使用 sticky 區段（外層約 400vh）',
+    '捲動進度分四段：5–25% 標題由下淡入、27–50% 圖片由 80% 放大到 100%、52–72% 說明文字由右滑入、74–92% 按鈕彈出',
+    '角落顯示目前步驟，例如 STEP 2 / 4',
+    '段與段之間留一點空白，讓節奏清楚；往回捲會倒放']],
+  'se-30': ['一排封面在固定的舞台上橫向切換，中間那張正面朝前，兩側的封面往內傾斜、往後退，像 Cover Flow。', [
+    '使用 sticky 區段（外層約 400vh），舞台 perspective 約 600px',
+    '依捲動進度決定目前中心是第幾張',
+    '每張依與中心的距離：水平位移約 60px、往後退 70px、rotateY 最多 ±60°',
+    '層級由中心往兩側遞減，距離超過 2.5 張開始淡出',
+    '顯示目前張數，例如 3 / 7']],
+  'se-31': ['圖片進入畫面時，用矩形遮罩逐漸「擦」出來，同時從微微放大縮回原尺寸。', [
+    '提供三種方向，用 class 切換：由上而下、由中間往左右展開、由左而右',
+    '用 clip-path: inset() 實作，進入畫面底部時完全遮住，捲到約 40% 高度時完全顯示',
+    '圖片同時從 scale(1.15) 縮回 1',
+    '優先用 CSS view() 時間軸，提供 JS 後備']],
+  'se-32': ['一個超大粗體字透出背景圖片，捲動時字不斷放大，最後整個畫面變成那張圖。', [
+    '使用 sticky 區段（外層約 300vh），背景深色',
+    '文字用 background-clip: text 透出［圖片］，字體選極粗字重',
+    '放大用前慢後快的曲線，從 1 倍放大到約 30 倍，放大原點在字的中間',
+    '進度 60% 之後淡入同一張圖的滿版背景，銜接成整張圖']],
+  'se-33': ['一個 SVG 圖形隨捲動依序變形：圓形 → 花形 → 方形 → 不規則形，顏色同步漸變。', [
+    '使用 sticky 區段（外層約 300vh），圖形置中',
+    '每個形狀用相同數量（約 72 個）的極座標點描述，依進度在相鄰兩個形狀之間插值',
+    '每段變形加上 ease-in-out；顏色在兩個色票之間漸變',
+    '圖形同時緩慢旋轉約 90°；角落顯示目前形狀的名稱']],
+  'se-34': ['左側目錄固定在畫面上，捲動內容時自動高亮目前所在的段落，點目錄可以平滑跳到該段。', [
+    '目錄 sticky，與內容兩欄排列',
+    '以「最後一個頂端已越過畫面上方 30% 的段落」作為目前段落',
+    '高亮樣式：文字加粗、左側出現品牌色線條，轉場 0.25 秒',
+    '點目錄用 scrollIntoView({ behavior: \'smooth\' })，段落設 scroll-margin-top 預留導覽列高度',
+    '手機版目錄改成頂部可以橫滑的標籤列']],
+  'se-35': ['名單依字母分組，右側固定一排 A–Z 索引；捲動時目前分組的字母高亮放大，分組標題黏在頂部。', [
+    '分組標題 position: sticky; top: 0',
+    '索引固定在右側、垂直置中',
+    '目前字母放大 1.6 倍並顯示品牌色，相鄰字母放大 1.25 倍，轉場 0.25 秒',
+    '點字母平滑跳到該組；沒有資料的字母顯示灰色且不可點']],
+  'se-36': ['可捲動區塊的頂端或底端還有被切到的內容時，對應位置出現柔和陰影，提示可以繼續捲。', [
+    '套用在［表格／側欄／對話框］等有固定高度的捲動區塊',
+    '區塊有固定標題列，往下捲之後標題列下方出現陰影',
+    '還沒捲到底時，底部出現往上的陰影',
+    '陰影用漸層，高度約 16px，出現與消失有 0.25 秒淡入淡出',
+    '優先用 CSS scroll() 時間軸實作，提供 JS 後備']],
+  'se-37': ['往下捲一段後，右下角出現回到頂部按鈕，按鈕外圈是跟著閱讀進度填滿的圓環。', [
+    '捲動超過 300px 後按鈕淡入並往上彈出；回到頂部附近時隱藏',
+    '圓形按鈕直徑 44px，外圈 SVG 圓環用 pathLength="1" 與 stroke-dashoffset 顯示 0～100% 進度',
+    '點擊用 scrollTo({ top: 0, behavior: \'smooth\' })',
+    '按鈕加 aria-label="回到頂部"，位置避開頁面上其他固定按鈕']],
+  'se-38': ['整頁用滑鼠滾輪捲動時帶有慣性，畫面平滑地滑向目標位置，不會一格一格跳。', [
+    '使用 Lenis 套件實作，lerp 約 0.1',
+    '只在有滑鼠的裝置啟用，觸控裝置保留原生捲動',
+    '錨點連結、鍵盤捲動、回到頂部按鈕都要正常運作',
+    '讓頁面上其他滾動動畫讀取平滑後的捲動位置，兩者同步',
+    '開啟「減少動態效果」時停用'], [
+    '除了 Lenis 之外，不再引入其他外部套件',
+    '若需要監聽捲動，加上 { passive: true } 並用 requestAnimationFrame 節流',
+    '支援 prefers-reduced-motion：開啟時恢復原生捲動',
+    'class 命名語意化並加上中文註解，方便工程師接手']],
 };
 const TECH = [
   '使用原生 HTML / CSS / JavaScript，不引入外部套件',
@@ -541,8 +839,8 @@ const TECH = [
   'class 命名語意化並加上中文註解，方便工程師接手',
 ];
 const promptOf = (d) => {
-  const [fx, list] = P[d.id];
-  return `請幫我實作「${d.zh}（${d.en}）」滾動效果。\n\n【效果】\n${fx}\n\n【細節】\n${list.map((x) => '- ' + x).join('\n')}\n\n【技術要求】\n${TECH.map((x) => '- ' + x).join('\n')}`;
+  const [fx, list, tech] = P[d.id];
+  return `請幫我實作「${d.zh}（${d.en}）」滾動效果。\n\n【效果】\n${fx}\n\n【細節】\n${list.map((x) => '- ' + x).join('\n')}\n\n【技術要求】\n${(tech || TECH).map((x) => '- ' + x).join('\n')}`;
 };
 
 /* ---------- helpers ---------- */
@@ -555,6 +853,13 @@ const LINES = (n) => Array.from({ length: n }, (_, k) =>
 const WRAP = (n, inner, cls = '') => `<div class="wrap" style="height:calc(var(--h)*${n})"><div class="stage ${cls}">${inner}</div></div>`;
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+const ART = [
+  'radial-gradient(circle at 30% 40%,#f2b705 0 16%,transparent 16.5%),linear-gradient(135deg,#ff4d2e,#8b5cf6)',
+  'radial-gradient(circle at 70% 35%,#fff 0 10%,transparent 10.5%),linear-gradient(160deg,#2e5bff,#16a37a)',
+  'repeating-linear-gradient(45deg,rgba(255,255,255,.2) 0 10px,transparent 10px 20px),linear-gradient(135deg,#16a37a,#f2b705)',
+  'radial-gradient(circle at 50% 115%,#ff4d2e 0 40%,transparent 40.5%),linear-gradient(#171614,#2e5bff)',
+];
 
 /* ---------- builders: each returns update() or { update, tick } ---------- */
 const B = {
@@ -778,6 +1083,247 @@ const B = {
       last = y;
     };
   },
+  'se-21': (vp) => {
+    vp.innerHTML = PAD('↓ SCROLL') + ART.map((a, i) => `<div class="bf-img" style="background:${a}"><span>PHOTO 0${i + 1}</span></div>`).join('') + PAD('END');
+    const els = $$('.bf-img', vp);
+    return () => {
+      const H = vp.clientHeight;
+      els.forEach((e) => {
+        const k = clamp((H - rt(e, vp)) / (H * .65));
+        e.style.filter = `blur(${(1 - k) * 14}px) grayscale(${1 - k})`;
+        e.style.opacity = .35 + .65 * k;
+        e.style.transform = `scale(${1.06 - .06 * k})`;
+      });
+    };
+  },
+  'se-22': (vp) => {
+    const L = ['設計會說話', 'SCROLL TO', 'REVEAL ✦'];
+    vp.innerHTML = PAD('↓ SCROLL') + L.map((l, n) => `<div class="cs-line" aria-label="${l}"${n === 2 ? ' style="color:var(--acc)"' : ''}>${[...l].map((c, i) =>
+      `<span aria-hidden="true" style="--i:${i}">${c === ' ' ? '&nbsp;' : c}</span>`).join('')}</div>`).join('') + PAD('END');
+    const lines = $$('.cs-line', vp);
+    return () => { const H = vp.clientHeight; lines.forEach((l) => { const t = rt(l, vp); l.classList.toggle('in', t < H * .8 && t + l.offsetHeight > H * .1); }); };
+  },
+  'se-23': (vp) => {
+    const A = 'MAKE IT MOVE', Bt = '讓畫面動起來';
+    const PA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&*@$', PB = '動畫滾視差設計網站效果捲軸互動版面光影節奏';
+    vp.innerHTML = WRAP(3, `<span class="us-p">DECODING 0%</span><div class="us-a" aria-label="${A}"></div><div class="us-b" aria-label="${Bt}"></div>`, 'us-stage') + PAD('END');
+    const w = $('.wrap', vp), a = $('.us-a', vp), b = $('.us-b', vp), lab = $('.us-p', vp);
+    const draw = (el, txt, pool, p) => {
+      const n = txt.length;
+      el.innerHTML = [...txt].map((c, i) => {
+        if (c === ' ') return ' ';
+        if (p * (n + 2) > i + 2) return c;
+        return `<span class="x">${pool[Math.floor(Math.random() * pool.length)]}</span>`;
+      }).join('');
+    };
+    return () => {
+      const p = clamp((lp(w, vp) - .05) / .8);
+      draw(a, A, PA, p); draw(b, Bt, PB, clamp(p * 1.1 - .1));
+      lab.textContent = `DECODING ${Math.round(p * 100)}%`;
+    };
+  },
+  'se-24': (vp) => {
+    const N = ['Amber', 'Brian', 'Chloe', 'Daniel', 'Emma', 'Felix', 'Grace', 'Henry', 'Iris', 'Jason', 'Kelly', 'Leo'];
+    vp.innerHTML = `<div class="fl-list">${N.map((n, i) => `<div class="fl-row"><b style="background:${C[i % 5]}">${n[0]}</b><div><strong>${n}</strong><span></span></div></div>`).join('')}</div>`;
+    const rows = $$('.fl-row', vp);
+    return () => {
+      const H = vp.clientHeight;
+      rows.forEach((r) => {
+        const c = (rt(r, vp) + r.offsetHeight / 2) / H; let x = 0, o = 1;
+        if (c > .72) { const k = clamp((c - .72) / .28); x = k * 110; o = 1 - k; }
+        else if (c < .28) { const k = clamp((.28 - c) / .28); x = -k * 110; o = 1 - k; }
+        r.style.transform = `translateX(${x}%)`; r.style.opacity = o;
+      });
+    };
+  },
+  'se-25': (vp) => {
+    vp.innerHTML = PAD('↓ SCROLL') + [0, 1, 2].map((i) => `<div class="cf-card"><div class="cf-in" style="transition-delay:${i * 100}ms"><div class="cf-f" style="background:${C[i]}"><div><b>0${i + 1}</b><span>FRONT</span></div></div><div class="cf-b">✦</div></div></div>`).join('') + PAD('END');
+    const cards = $$('.cf-card', vp);
+    return () => { const H = vp.clientHeight; cards.forEach((c) => { const t = rt(c, vp); c.classList.toggle('in', t < H * .75 && t + c.offsetHeight > H * .1); }); };
+  },
+  'se-26': (vp) => {
+    vp.innerHTML = PAD('↓ SCROLL') + [2, 0, 1].map((a) => `<div class="pc-frame"><div class="pc-img" style="background:${ART[a]}"></div><span>PARALLAX CROP</span></div>`).join('') + PAD('END');
+    const fr = $$('.pc-frame', vp);
+    return () => {
+      const H = vp.clientHeight;
+      fr.forEach((f) => { const c = (rt(f, vp) + f.offsetHeight / 2) / H; f.firstChild.style.transform = `translateY(${clamp((c - .5) * -28, -14, 14)}%)`; });
+    };
+  },
+  'se-27': (vp) => {
+    const I = [['設計', 22, 30], ['●', 76, 24], ['DEPTH', 62, 72], ['■', 24, 74], ['滾動', 52, 42], ['▲', 82, 58], ['SPACE', 30, 52], ['◆', 66, 34], ['景深', 40, 66], ['ENTER', 50, 50]];
+    vp.innerHTML = WRAP(4, I.map((t, i) => `<div class="zf-it" style="left:${t[1]}%;top:${t[2]}%;color:${[C[0], C[3], '#f3f0e8', C[1], C[2]][i % 5]}">${t[0]}</div>`).join(''), 'zf-stage') + PAD('END');
+    const w = $('.wrap', vp), els = $$('.zf-it', vp), n = I.length;
+    return () => {
+      const p = lp(w, vp);
+      els.forEach((e, i) => {
+        const z = (p * (n - 1) - i) * 420;
+        e.style.transform = `translate(-50%,-50%) translateZ(${z}px)`;
+        e.style.opacity = z > 320 ? 0 : clamp(1 + z / 1800) * clamp((320 - z) / 150);
+      });
+    };
+  },
+  'se-28': (vp) => {
+    vp.innerHTML = WRAP(3, `<canvas class="is-cv"></canvas><span class="is-lab">FRAME 01 / 60</span>`, 'is-stage') + PAD('END');
+    const w = $('.wrap', vp), cv = $('.is-cv', vp), lab = $('.is-lab', vp), ctx = cv.getContext('2d');
+    const V = [[-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1], [-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1]];
+    const F = [[0, 1, 2, 3, C[0]], [4, 5, 6, 7, C[1]], [0, 1, 5, 4, C[2]], [3, 2, 6, 7, C[3]], [0, 3, 7, 4, '#8b5cf6'], [1, 2, 6, 5, '#171614']];
+    let last = -1;
+    return () => {
+      const f = Math.round(lp(w, vp) * 59);
+      const W = cv.clientWidth, H = cv.clientHeight, dpr = devicePixelRatio || 1;
+      if (cv.width !== Math.round(W * dpr)) { cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); last = -1; }
+      if (f === last || !W) return; last = f;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+      const a = f / 59 * Math.PI * 1.5, b = .45, s = Math.min(W, H) * .2;
+      const P = V.map(([x, y, z]) => {
+        const x1 = x * Math.cos(a) + z * Math.sin(a), z1 = -x * Math.sin(a) + z * Math.cos(a);
+        const y2 = y * Math.cos(b) - z1 * Math.sin(b), z2 = y * Math.sin(b) + z1 * Math.cos(b);
+        const k = 4 / (z2 + 5);
+        return [W / 2 + x1 * s * k, H / 2 + y2 * s * k - 8, z2];
+      });
+      ctx.fillStyle = 'rgba(23,22,20,.12)'; ctx.beginPath(); ctx.ellipse(W / 2, H / 2 + s * 1.5, s * 1.3, s * .25, 0, 0, Math.PI * 2); ctx.fill();
+      F.map((q) => ({ q, z: (P[q[0]][2] + P[q[1]][2] + P[q[2]][2] + P[q[3]][2]) / 4 })).sort((m, n) => n.z - m.z).forEach(({ q }) => {
+        ctx.beginPath(); q.slice(0, 4).forEach((v, k) => ctx[k ? 'lineTo' : 'moveTo'](P[v][0], P[v][1])); ctx.closePath();
+        ctx.fillStyle = q[4]; ctx.fill(); ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.lineWidth = 1; ctx.stroke();
+      });
+      lab.textContent = `FRAME ${String(f + 1).padStart(2, '0')} / 60`;
+    };
+  },
+  'se-29': (vp) => {
+    vp.innerHTML = WRAP(4, `<div class="pt-box"><span class="pt-step">STEP 0 / 4</span><h4 class="pt-t">新品上市</h4><div class="pt-img" style="background:${ART[1]}"></div><p class="pt-p">一個畫面，分段說完一個故事。</p><b class="pt-btn">立即了解 →</b></div>`, 'pt-stage') + PAD('END');
+    const w = $('.wrap', vp), t = $('.pt-t', vp), im = $('.pt-img', vp), tx = $('.pt-p', vp), bt = $('.pt-btn', vp), st = $('.pt-step', vp);
+    return () => {
+      const p = lp(w, vp), seg = (a, b) => clamp((p - a) / (b - a));
+      const s1 = seg(.05, .25), s2 = seg(.27, .5), s3 = seg(.52, .72), s4 = seg(.74, .92);
+      t.style.opacity = s1; t.style.transform = `translateY(${(1 - s1) * 30}px)`;
+      im.style.opacity = s2; im.style.transform = `scale(${.8 + .2 * s2})`;
+      tx.style.opacity = s3; tx.style.transform = `translateX(${(1 - s3) * 40}px)`;
+      bt.style.opacity = s4; bt.style.transform = `scale(${.6 + .4 * s4})`;
+      st.textContent = `STEP ${[s1, s2, s3, s4].filter((v) => v >= 1).length} / 4`;
+    };
+  },
+  'se-30': (vp) => {
+    const n = 7;
+    vp.innerHTML = WRAP(4, `<div class="cv-row">${Array.from({ length: n }, (_, i) => `<div class="cv-it" style="background:${i % 2 ? C[i % 5] : ART[i % 4]}">${i + 1}</div>`).join('')}</div><span class="cv-lab">1 / ${n}</span>`, 'cv-stage') + PAD('END');
+    const w = $('.wrap', vp), its = $$('.cv-it', vp), lab = $('.cv-lab', vp);
+    return () => {
+      const pos = lp(w, vp) * (n - 1);
+      its.forEach((e, i) => {
+        const d = i - pos, ad = Math.abs(d);
+        e.style.transform = `translate(-50%,-50%) translateX(${d * 62}px) translateZ(${-ad * 70}px) rotateY(${clamp(-d * 55, -60, 60)}deg)`;
+        e.style.zIndex = 100 - Math.round(ad * 10);
+        e.style.opacity = 1 - clamp(ad - 2.5);
+      });
+      lab.textContent = `${Math.round(pos) + 1} / ${n}`;
+    };
+  },
+  'se-31': (vp) => {
+    const L = ['由上而下', '由中間展開', '由左而右'];
+    vp.innerHTML = PAD('↓ SCROLL') + L.map((l, i) => `<div class="iw-box"><div class="iw-img" style="background:${ART[(i + 1) % 4]}"></div><span>${l}</span></div>`).join('') + PAD('END');
+    const bx = $$('.iw-box', vp);
+    return () => {
+      const H = vp.clientHeight;
+      bx.forEach((b, i) => {
+        const k = clamp((H - rt(b, vp)) / (H * .6)), r = (1 - k) * 100, img = b.firstChild;
+        img.style.clipPath = i === 0 ? `inset(0 0 ${r}% 0)` : i === 1 ? `inset(0 ${r / 2}% 0 ${r / 2}%)` : `inset(0 ${r}% 0 0)`;
+        img.style.transform = `scale(${1.15 - .15 * k})`;
+      });
+    };
+  },
+  'se-32': (vp) => {
+    vp.innerHTML = WRAP(3, `<div class="tm-bg" style="background:${ART[0]}"></div><div class="tm-txt" style="background-image:${ART[0]}">ZOOM</div>`, 'tm-stage') + PAD('END');
+    const w = $('.wrap', vp), bg = $('.tm-bg', vp), tx = $('.tm-txt', vp);
+    return () => {
+      const q = clamp((lp(w, vp) - .05) / .85);
+      tx.style.transform = `scale(${1 + Math.pow(q, 2.4) * 30})`;
+      bg.style.opacity = clamp((q - .6) / .3);
+    };
+  },
+  'se-33': (vp) => {
+    const N = 72, S = [
+      () => 62,
+      (t) => 52 + 22 * Math.cos(5 * t),
+      (t) => 62 / Math.pow(Math.pow(Math.abs(Math.cos(t)), 4) + Math.pow(Math.abs(Math.sin(t)), 4), .25),
+      (t) => 60 + 12 * Math.sin(3 * t) + 8 * Math.cos(5 * t + 1),
+    ];
+    const NAMES = ['CIRCLE', 'FLOWER', 'SQUARE', 'BLOB'], COL = [C[0], C[1], C[2], C[3]];
+    const hex = (h) => [1, 3, 5].map((k) => parseInt(h.slice(k, k + 2), 16));
+    vp.innerHTML = WRAP(3, `<svg class="mp-svg" viewBox="-100 -100 200 200"><path class="mp-path"/></svg><span class="mp-lab">CIRCLE</span>`, 'mp-stage') + PAD('END');
+    const w = $('.wrap', vp), path = $('.mp-path', vp), lab = $('.mp-lab', vp);
+    return () => {
+      const p = lp(w, vp), seg = p * 3, i = Math.min(2, Math.floor(seg)), raw = seg - i, f = raw < .5 ? 2 * raw * raw : 1 - Math.pow(-2 * raw + 2, 2) / 2;
+      let d = '';
+      for (let k = 0; k < N; k++) {
+        const t = k / N * Math.PI * 2 - Math.PI / 2, r = S[i](t) * (1 - f) + S[i + 1](t) * f;
+        d += (k ? 'L' : 'M') + (r * Math.cos(t)).toFixed(2) + ' ' + (r * Math.sin(t)).toFixed(2);
+      }
+      path.setAttribute('d', d + 'Z');
+      const a = hex(COL[i]), b = hex(COL[i + 1]);
+      path.style.fill = `rgb(${a.map((v, k) => Math.round(v + (b[k] - v) * f)).join(',')})`;
+      path.setAttribute('transform', `rotate(${p * 90})`);
+      lab.textContent = NAMES[Math.round(seg)];
+    };
+  },
+  'se-34': (vp) => {
+    const T = ['簡介', '安裝', '使用方式', '常見問題', '授權'];
+    vp.innerHTML = `<div class="sp-grid"><nav class="sp-toc">${T.map((t) => `<a>${t}</a>`).join('')}</nav><div class="sp-body">${T.map((t) => `<section class="sp-sec"><h5>${t}</h5>${LINES(2)}</section>`).join('')}<div style="height:calc(var(--h)*.6)"></div></div></div>`;
+    const links = $$('.sp-toc a', vp), secs = $$('.sp-sec', vp);
+    links.forEach((a, i) => a.addEventListener('click', (e) => { e.stopPropagation(); vp.scrollTo({ top: vp.scrollTop + rt(secs[i], vp) - 10, behavior: 'smooth' }); }));
+    return () => {
+      const H = vp.clientHeight; let cur = 0;
+      secs.forEach((s, i) => { if (rt(s, vp) <= H * .3) cur = i; });
+      links.forEach((a, i) => a.classList.toggle('on', i === cur));
+    };
+  },
+  'se-35': (vp) => {
+    const G = [['A', 'Amber', 'Alan', 'Avery'], ['B', 'Brian', 'Bella', 'Bruce'], ['C', 'Chloe', 'Carter', 'Cindy'], ['D', 'Daniel', 'Diana', 'Dylan'], ['E', 'Emma', 'Ethan', 'Eva'], ['F', 'Felix', 'Fiona', 'Frank']];
+    vp.innerHTML = `<div class="ai-idx"><div>${G.map((g) => `<i>${g[0]}</i>`).join('')}</div></div>` + G.map((g) =>
+      `<div class="ai-grp"><h6>${g[0]}</h6>${g.slice(1).map((n) => `<div class="ai-row"><b>${n[0]}</b>${n}</div>`).join('')}</div>`).join('') + `<div style="height:calc(var(--h)*.5)"></div>`;
+    const grps = $$('.ai-grp', vp), ls = $$('.ai-idx i', vp);
+    ls.forEach((l, i) => l.addEventListener('click', (e) => { e.stopPropagation(); vp.scrollTo({ top: vp.scrollTop + rt(grps[i], vp), behavior: 'smooth' }); }));
+    return () => {
+      let cur = 0; grps.forEach((g, i) => { if (rt(g, vp) <= 2) cur = i; });
+      ls.forEach((l, i) => { const d = Math.abs(i - cur); l.classList.toggle('on', d === 0); l.style.transform = `scale(${d === 0 ? 1.6 : d === 1 ? 1.25 : 1})`; });
+    };
+  },
+  'se-36': (vp) => {
+    vp.innerHTML = `<div class="sw-head">訂單紀錄<span>14 筆</span></div><div class="sw-st"></div>${Array.from({ length: 14 }, (_, i) =>
+      `<div class="sw-row"><span>#20${String(i + 31).padStart(2, '0')}</span><i style="max-width:${40 + (i * 17) % 45}%"></i><b>NT$ ${(1200 + i * 370).toLocaleString()}</b></div>`).join('')}<div class="sw-sb"></div>`;
+    const st = $('.sw-st', vp), sb = $('.sw-sb', vp);
+    return () => {
+      const y = vp.scrollTop, max = vp.scrollHeight - vp.clientHeight;
+      st.style.setProperty('--o', y > 4 ? 1 : 0); sb.style.setProperty('--o', y < max - 4 ? 1 : 0);
+    };
+  },
+  'se-37': (vp) => {
+    vp.innerHTML = `<div class="pg-h" style="margin-top:16px"></div>${LINES(9)}<div class="bt-wrap"><button class="bt-btn" aria-label="回到頂部"><svg viewBox="0 0 44 44"><circle class="bt-bg" cx="22" cy="22" r="19"/><circle class="bt-ring" cx="22" cy="22" r="19" pathLength="1"/></svg><span>↑</span></button></div>`;
+    const btn = $('.bt-btn', vp), ring = $('.bt-ring', vp);
+    btn.addEventListener('click', (e) => { e.stopPropagation(); vp.scrollTo({ top: 0, behavior: 'smooth' }); });
+    return () => {
+      const p = clamp(vp.scrollTop / (vp.scrollHeight - vp.clientHeight));
+      ring.style.strokeDashoffset = 1 - p; btn.classList.toggle('show', vp.scrollTop > 40);
+    };
+  },
+  'se-38': (vp) => {
+    vp.innerHTML = `<div class="ss-tag">SMOOTH SCROLL · 用滑鼠滾輪試試</div>${Array.from({ length: 14 }, (_, i) =>
+      `<div class="ss-row"><em style="color:${C[i % 5]}">${String(i + 1).padStart(2, '0')}</em><span style="max-width:${50 + (i * 23) % 45}%"></span></div>`).join('')}`;
+    if (!NOHOVER) {
+      let target = 0, cur = 0, anim = false;
+      const step = () => {
+        cur += (target - cur) * .09;
+        if (Math.abs(target - cur) < .5) { cur = target; anim = false; }
+        vp.scrollTop = cur; vp._pos = cur;
+        if (anim) requestAnimationFrame(step);
+      };
+      vp.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        if (!anim) cur = target = vp.scrollTop;
+        target = clamp(target + e.deltaY, 0, vp.scrollHeight - vp.clientHeight);
+        if (!anim) { anim = true; requestAnimationFrame(step); }
+      }, { passive: false });
+    }
+    return () => {};
+  },
 };
 
 /* ---------- mounting & auto demo ---------- */
@@ -890,6 +1436,8 @@ grid.innerHTML = DATA.map((d) => `
   </article>`).join('') + '<p class="empty" hidden id="empty">找不到符合的效果，換個關鍵字試試。</p>';
 
 $$('.card', grid).forEach((card) => { mount($('.vp', card), card.dataset.id); visIO.observe($('.pv', card)); });
+
+$$('.n-fx').forEach((el) => { el.textContent = DATA.length; });
 
 /* ---------- filter ---------- */
 let curCat = '全部', q = '';
