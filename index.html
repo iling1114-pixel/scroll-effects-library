@@ -63,6 +63,7 @@ main{max-width:1320px;margin:0 auto;padding:28px 28px 64px}
 @media (hover:hover){.vp{overscroll-behavior:contain}}
 .hint{position:absolute;right:10px;bottom:10px;font:500 10px/1 var(--mono);background:rgba(23,22,20,.8);color:#fff;padding:6px 9px;border-radius:99px;pointer-events:none;transition:opacity .4s;z-index:5}
 .pv.touched .hint{opacity:0}
+.pv.paused .hint{opacity:1}
 .meta{padding:14px 8px 6px;display:flex;flex-direction:column;gap:5px;flex:1}
 .row1{display:flex;justify-content:space-between;align-items:center;font:500 11px var(--mono);color:var(--mute)}
 .cat{display:inline-flex;gap:6px;align-items:center;color:var(--ink);font-family:'Noto Sans TC',sans-serif;font-size:12px}
@@ -781,6 +782,7 @@ const B = {
 
 /* ---------- mounting & auto demo ---------- */
 const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const NOHOVER = matchMedia('(hover: none)').matches; // 手機、平板等沒有滑鼠的裝置
 let AUTO = !RM, modalOpen = false;
 const live = new Set();
 const visIO = new IntersectionObserver((es) => es.forEach((e) => { const vp = e.target.querySelector('.vp'); if (vp) vp._vis = e.isIntersecting; }));
@@ -796,23 +798,61 @@ function mount(vp, id, isModal) {
   }, { passive: true });
   const mark = () => { vp._user = performance.now() + 3500; vp.parentNode.classList.add('touched'); };
   ['wheel', 'touchstart', 'pointerdown', 'keydown'].forEach((ev) => vp.addEventListener(ev, mark, { passive: true }));
-  vp.addEventListener('mouseenter', () => { vp._hover = 1; });
-  vp.addEventListener('mouseleave', () => { vp._hover = 0; vp._pos = vp.scrollTop; });
-  const host = vp.closest('.card') || vp.parentNode;
-  host.addEventListener('mouseenter', () => { vp._cardHover = 1; vp._pos = vp.scrollTop; vp._pause = 0; vp._next = 0; });
-  host.addEventListener('mouseleave', () => { vp._cardHover = 0; });
+  if (NOHOVER) {
+    // 觸控裝置：點一下暫停／繼續（手指滑動不會觸發 click）
+    vp.addEventListener('click', () => {
+      vp._paused = !vp._paused;
+      Object.assign(vp, { _user: 0, _pos: vp.scrollTop, _pause: 0, _next: 0 });
+      setPaused(vp);
+    });
+  } else {
+    vp.addEventListener('mouseenter', () => { vp._hover = 1; });
+    vp.addEventListener('mouseleave', () => { vp._hover = 0; vp._pos = vp.scrollTop; });
+    const host = vp.closest('.card') || vp.parentNode;
+    host.addEventListener('mouseenter', () => { vp._cardHover = 1; vp._pos = vp.scrollTop; vp._pause = 0; vp._next = 0; });
+    host.addEventListener('mouseleave', () => { vp._cardHover = 0; });
+  }
   vp.tabIndex = 0;
   live.add(vp);
   vp._u();
 }
 
+function setPaused(vp) {
+  vp.parentNode.classList.toggle('paused', !!vp._paused);
+  syncHints();
+}
+
+// 觸控裝置：找出最接近畫面中央的預覽
+let prevCenter = null;
+function findCenter() {
+  if (modalOpen) { for (const vp of live) if (vp._modal && vp.isConnected) return vp; return null; }
+  const mid = innerHeight / 2; let best = null, bd = innerHeight * .35;
+  for (const vp of live) {
+    if (!vp._vis || vp._modal || !vp.isConnected) continue;
+    const r = vp.getBoundingClientRect(), d = Math.abs(r.top + r.height / 2 - mid);
+    if (d < bd) { bd = d; best = vp; }
+  }
+  return best;
+}
+
 let lastT = performance.now();
 function loop(t) {
   const dt = Math.min(50, t - lastT); lastT = t;
+  let center = null;
+  if (NOHOVER) {
+    center = findCenter();
+    if (center !== prevCenter) {
+      // 離開中央的卡片解除暫停，下次滑回來會重新播放
+      if (prevCenter && prevCenter._paused) { prevCenter._paused = 0; setPaused(prevCenter); }
+      if (center) center._pos = center.scrollTop;
+      prevCenter = center;
+    }
+  }
   for (const vp of live) {
     if (!vp.isConnected) { live.delete(vp); continue; }
     if (!vp._vis || (modalOpen && !vp._modal)) continue;
-    const run = AUTO ? (!vp._hover && t > vp._user) : (vp._cardHover && t > vp._user);
+    const active = NOHOVER ? vp === center : vp._cardHover;
+    const run = !vp._paused && t > vp._user && (AUTO ? !vp._hover : active);
     if (run) {
       const H = vp.clientHeight, max = vp.scrollHeight - H;
       if (vp._snap) {
@@ -884,7 +924,8 @@ autoBtn.addEventListener('click', () => {
   syncHints();
 });
 function syncHints() {
-  $$('.hint').forEach((h) => { h.textContent = AUTO ? '↕ 框內可滾動' : '▶ 滑過卡片播放'; });
+  const base = AUTO ? (NOHOVER ? '↕ 點一下暫停' : '↕ 框內可滾動') : (NOHOVER ? '▶ 滑到中間播放' : '▶ 滑過卡片播放');
+  $$('.hint').forEach((h) => { h.textContent = h.parentNode.classList.contains('paused') ? '❚❚ 已暫停，點一下繼續' : base; });
 }
 syncHints();
 
