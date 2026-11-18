@@ -24,11 +24,7 @@ button{font-family:inherit;color:inherit}
 .eyebrow b{color:var(--acc);font-weight:500}
 h1{font:900 clamp(46px,7.2vw,100px)/.95 'Noto Sans TC',sans-serif;letter-spacing:-.03em;margin:14px 0 0}
 h1 em{font-style:normal;color:var(--acc)}
-h1 small{display:block;font:500 clamp(14px,1.4vw,18px)/1.2 var(--disp);letter-spacing:.02em;color:var(--mute);margin-top:14px}
-.lead{font-size:15px;line-height:1.85;color:#3d3a34;margin:0 0 22px;max-width:46ch}
-.stats{display:flex;gap:32px;border-top:1px solid var(--line);padding-top:18px}
-.stats b{display:block;font:700 34px/1 var(--disp)}
-.stats span{font-size:12px;color:var(--mute)}
+.lead{font-size:15px;line-height:1.85;color:#3d3a34;margin:0;max-width:46ch}
 
 /* ---------- Toolbar ---------- */
 .bar{position:sticky;top:0;z-index:20;background:rgba(243,240,232,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -45,6 +41,10 @@ h1 small{display:block;font:500 clamp(14px,1.4vw,18px)/1.2 var(--disp);letter-sp
 .chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .chip.on i{box-shadow:0 0 0 2px var(--ink),0 0 0 3px var(--bg)}
 .tools{margin-left:auto;display:flex;align-items:center;gap:14px}
+/* 選單：桌機直接攤開，手機收進漢堡選單 */
+.menu{display:contents}
+.menu-btn{display:none}
+.cur-cat{display:none}
 .count{font:500 11px var(--mono);color:var(--mute)}
 .tog{display:inline-flex;align-items:center;gap:8px;border:0;background:none;cursor:pointer;font-size:13px;padding:4px 0}
 .tog span{width:32px;height:18px;border-radius:99px;background:#cfc9bb;position:relative;transition:.25s}
@@ -59,15 +59,15 @@ main{max-width:1320px;margin:0 auto;padding:28px 28px 64px}
 .card:hover{transform:translateY(-2px);box-shadow:0 14px 34px -18px rgba(23,22,20,.35)}
 .card[hidden]{display:none}
 .pv{position:relative}
-.vp{height:260px;overflow-y:auto;overflow-x:hidden;position:relative;background:#ebe7dc;border-radius:11px;scrollbar-width:thin;scrollbar-color:#bdb7a8 transparent;color:var(--ink)}
+.vp{height:260px;overflow-y:auto;overflow-x:hidden;position:relative;background:#ebe7dc;border-radius:11px;color:var(--ink)}
 @media (hover:hover){.vp{overscroll-behavior:contain}}
 .hint{position:absolute;right:10px;bottom:10px;font:500 10px/1 var(--mono);background:rgba(23,22,20,.8);color:#fff;padding:6px 9px;border-radius:99px;pointer-events:none;transition:opacity .4s;z-index:5}
 .pv.touched .hint{opacity:0}
 .pv.paused .hint{opacity:1}
 .meta{padding:14px 8px 6px;display:flex;flex-direction:column;gap:5px;flex:1}
 .row1{display:flex;justify-content:space-between;align-items:center;font:500 11px var(--mono);color:var(--mute)}
-.cat{display:inline-flex;gap:6px;align-items:center;color:var(--ink);font-family:'Noto Sans TC',sans-serif;font-size:12px}
-.cat::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--c)}
+.cat{display:inline-flex;gap:6px;align-items:center;color:var(--ink);font-family:'Noto Sans TC',sans-serif;font-size:12px;line-height:1}
+.cat::before{content:'';flex:none;width:8px;height:8px;border-radius:50%;background:var(--c)}
 .meta h3{margin:4px 0 0;font:800 22px/1.25 'Noto Sans TC',sans-serif;cursor:pointer}
 .en{margin:0;font:500 13px var(--disp);color:var(--mute)}
 .desc{margin:6px 0 0;font-size:14px;line-height:1.7;color:#3d3a34}
@@ -81,17 +81,22 @@ main{max-width:1320px;margin:0 auto;padding:28px 28px 64px}
 .modal{position:fixed;inset:0;z-index:50;background:rgba(23,22,20,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:grid;place-items:center;padding:24px}
 .modal[hidden]{display:none}
 .mbox{background:var(--bg);border-radius:22px;width:min(1120px,100%);max-height:calc(100vh - 48px);overflow:auto;position:relative;padding:24px}
-.x{position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);cursor:pointer;font-size:15px;z-index:3}
+/* 詳情標頭：編號、分類、關閉按鈕同一列，捲動時固定在上方 */
+.mhead{position:sticky;top:-24px;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:12px;margin:-24px -24px 16px;padding:16px 24px 12px;background:var(--bg);border-radius:22px 22px 0 0}
+.mmeta{display:flex;align-items:center;gap:14px;font:500 11px/1 var(--mono);color:var(--mute)}
+/* 字型的上下留白不一樣，固定高度並置中，讓編號、分類文字與圓點對齊同一條水平線 */
+.mmeta>span{display:inline-flex;align-items:center;height:20px;line-height:1}
+.x{flex:none;width:38px;height:38px;padding:0;border-radius:50%;border:1px solid var(--line);background:var(--card);cursor:pointer;display:grid;place-items:center;color:var(--ink)}
 .mgrid{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:start}
 .pv.big .vp{height:min(460px,56vh)}
 .minfo{padding-top:4px}
-.minfo .row1{padding-right:52px}
 .minfo h2{font:900 34px/1.15 'Noto Sans TC',sans-serif;margin:8px 0 2px}
 .minfo dl{margin:18px 0 0}
 .minfo dt{font:500 11px var(--mono);letter-spacing:.1em;color:var(--mute);margin-top:14px}
 .minfo dd{margin:4px 0 0;font-size:14.5px;line-height:1.75}
-.mnav{display:flex;gap:8px;margin-top:22px}
-.mnav button{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:8px 14px;font-size:13px;cursor:pointer}
+.mtitle{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.mnav{display:flex;gap:8px;flex:none}
+.mnav button{width:38px;height:38px;padding:0;border:1px solid var(--line);background:var(--card);border-radius:50%;font-size:16px;cursor:pointer;display:grid;place-items:center}
 .mnav button:hover{border-color:var(--ink)}
 .mcode{margin-top:24px;background:#1b1a17;border-radius:14px;overflow:hidden}
 .mcode-h{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;color:#bdb7a8;font:500 11px var(--mono);border-bottom:1px solid #2c2a26}
@@ -101,12 +106,24 @@ pre code{font:inherit}
 
 @media (max-width:820px){
   .hero{grid-template-columns:1fr;gap:24px;padding:36px 18px 24px}
-  .bar-in{padding:10px 18px}
-  .search,.search input{width:100%}
-  .tools{margin-left:0;width:100%;justify-content:space-between}
+  .bar-in{padding:10px 18px;flex-wrap:nowrap;position:relative}
+  .search{flex:1;min-width:0}
+  .search input{width:100%}
+  .menu-btn{display:inline-flex;align-items:center;gap:8px;flex:none;border:1px solid var(--line);background:var(--card);border-radius:99px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;max-width:42vw}
+  .cur-cat{display:block;margin:4px 0 16px;font:900 26px/1.2 'Noto Sans TC',sans-serif;letter-spacing:-.01em}
+  .mb-ic{position:relative;width:14px;height:10px;flex:none}
+  .mb-ic i{position:absolute;left:0;right:0;height:2px;border-radius:1px;background:currentColor;transition:transform .25s,opacity .2s,top .25s}
+  .mb-ic i:nth-child(1){top:0}.mb-ic i:nth-child(2){top:4px}.mb-ic i:nth-child(3){top:8px}
+  .bar.open .mb-ic i:nth-child(1){top:4px;transform:rotate(45deg)}
+  .bar.open .mb-ic i:nth-child(2){opacity:0}
+  .bar.open .mb-ic i:nth-child(3){top:4px;transform:rotate(-45deg)}
+  .menu{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:14px;padding:14px 18px 18px;background:var(--bg);border-bottom:1px solid var(--line);box-shadow:0 16px 30px -18px rgba(23,22,20,.35)}
+  .bar.open .menu{display:flex}
+  .tools{margin-left:0;width:100%;justify-content:space-between;padding-top:12px;border-top:1px solid var(--line)}
   main{padding:18px}
   .modal{padding:0}
   .mbox{border-radius:0;max-height:100vh;height:100vh;padding:18px}
+  .mhead{top:-18px;margin:-18px -18px 14px;padding:12px 18px 10px;border-radius:0}
   .mgrid{grid-template-columns:1fr;gap:16px}
   .minfo h2{font-size:26px}
 }
@@ -254,7 +271,7 @@ pre code{font:inherit}
 .us-stage{display:flex;flex-direction:column;justify-content:center;gap:10px;padding:0 20px;background:var(--ink);color:#f3f0e8}
 .us-a{font:500 22px/1.2 var(--mono);white-space:pre}
 .us-b{font:900 30px/1.2 'Noto Sans TC',sans-serif;color:var(--acc)}
-.us-stage .x{color:#6f6a60}
+.us-stage .us-x{color:#6f6a60}
 .us-p{position:absolute;top:12px;left:20px;font:500 10px var(--mono);letter-spacing:.1em;color:#8f897d}
 /* se-24 */
 .fl-list{padding:calc(var(--h)*.4) 14px;overflow:hidden}
@@ -345,22 +362,72 @@ pre code{font:inherit}
 .ss-row{display:flex;align-items:center;gap:12px;padding:0 14px;height:64px;border-bottom:1px solid #ddd8cb}
 .ss-row em{font:700 28px var(--disp);font-style:normal;width:46px}
 .ss-row span{flex:1;height:8px;border-radius:4px;background:#d3cdbf}
+/* 播放方式切換 */
+.mode{margin-top:18px;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.mode[hidden]{display:none}
+.mode-h{font:500 11px var(--mono);letter-spacing:.1em;color:var(--mute);margin-bottom:8px}
+.seg{display:inline-flex;background:#e7e2d6;border-radius:99px;padding:3px}
+.seg button{border:0;background:transparent;padding:7px 14px;border-radius:99px;font-size:13px;cursor:pointer;color:var(--mute)}
+.seg button[aria-checked="true"]{background:var(--ink);color:var(--bg);font-weight:700}
+.mode-note{margin:8px 0 0;font-size:12px;color:var(--mute)}
+.vp.rs,.vp.rs *{transition:none!important}
+.rp-btn{position:absolute;top:10px;left:10px;z-index:5;border:0;border-radius:99px;background:rgba(23,22,20,.8);color:#fff;font:700 11px 'Noto Sans TC',sans-serif;padding:6px 10px;cursor:pointer}
+.rp-btn:hover{background:var(--acc)}
+body:not(.mode-once) .rp-btn{display:none}
+
+/* =========================================================
+   Scrollbar：沿用米色紙感 + 墨色 + 品牌紅
+   - Chrome / Edge / Safari 用 ::-webkit-scrollbar（膠囊形，可做內縮留白）
+   - Firefox 用標準屬性 scrollbar-width / scrollbar-color
+   ========================================================= */
+:root{--sb-thumb:#cfc9bb;--sb-thumb-hover:#a9a294;--sb-active:var(--acc)}
+
+/* 整頁：12px 寬，膠囊用背景色描邊做出內縮感，拖曳時變品牌紅 */
+html::-webkit-scrollbar{width:12px;height:12px}
+html::-webkit-scrollbar-track{background:var(--bg)}
+html::-webkit-scrollbar-thumb{background:var(--sb-thumb);border:3px solid var(--bg);border-radius:99px;min-height:48px}
+html::-webkit-scrollbar-thumb:hover{background:var(--sb-thumb-hover)}
+html::-webkit-scrollbar-thumb:active{background:var(--sb-active)}
+
+/* 詳情視窗：同樣風格，稍細 */
+.mbox::-webkit-scrollbar{width:10px}
+.mbox::-webkit-scrollbar-track{background:transparent;margin:22px 0}
+.mbox::-webkit-scrollbar-thumb{background:var(--sb-thumb);border:3px solid var(--bg);border-radius:99px}
+.mbox::-webkit-scrollbar-thumb:hover{background:var(--sb-thumb-hover)}
+.mbox::-webkit-scrollbar-thumb:active{background:var(--sb-active)}
+
+/* 卡片預覽：6px 細線，半透明墨色，在淺色與深色畫面上都看得到 */
+.vp::-webkit-scrollbar{width:6px}
+.vp::-webkit-scrollbar-track{background:transparent;margin:10px 0}
+.vp::-webkit-scrollbar-thumb{background:rgba(120,114,104,.45);border-radius:99px}
+.vp:hover::-webkit-scrollbar-thumb{background:rgba(120,114,104,.7)}
+.vp::-webkit-scrollbar-thumb:active{background:var(--sb-active)}
+
+/* 提示詞（深色區塊）：深灰膠囊 */
+pre::-webkit-scrollbar{width:8px;height:8px}
+pre::-webkit-scrollbar-track{background:transparent;margin:6px}
+pre::-webkit-scrollbar-thumb{background:#4a463f;border-radius:99px}
+pre::-webkit-scrollbar-thumb:hover{background:#6f6a60}
+pre::-webkit-scrollbar-corner{background:transparent}
+
+/* Firefox 等不支援 ::-webkit-scrollbar 的瀏覽器 */
+@supports not selector(::-webkit-scrollbar){
+  html{scrollbar-color:var(--sb-thumb) var(--bg)}
+  .mbox{scrollbar-width:thin;scrollbar-color:var(--sb-thumb) transparent}
+  .vp{scrollbar-width:thin;scrollbar-color:rgba(120,114,104,.55) transparent}
+  pre{scrollbar-width:thin;scrollbar-color:#4a463f transparent}
+}
 </style>
 </head>
 <body>
 
 <header class="hero">
   <div>
-    <div class="eyebrow"><b>●</b> SCROLL EFFECTS LIBRARY — VOL.01</div>
-    <h1>滾動效果<em>圖鑑</em><small>A field guide to scroll interactions</small></h1>
+    <div class="eyebrow"><b>●</b> SCROLL EFFECTS LIBRARY</div>
+    <h1>滾動效果<em>圖鑑</em></h1>
   </div>
   <div>
     <p class="lead">整理 <span class="n-fx">20</span> 種網站上常見又耐用的滾動互動。每張卡片都是可以直接在框內滾動的示意，點開可看說明、適用情境、交接備註，以及可以直接貼給 AI 實作的提示詞。</p>
-    <div class="stats">
-      <div><b class="n-fx">20</b><span>種效果</span></div>
-      <div><b>6</b><span>個分類</span></div>
-      <div><b class="n-fx">20</b><span>組提示詞</span></div>
-    </div>
   </div>
 </header>
 
@@ -370,27 +437,38 @@ pre code{font:inherit}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
       <input id="q" type="search" placeholder="搜尋名稱、英文、用途…" autocomplete="off">
     </label>
-    <div class="chips" id="chips"></div>
-    <div class="tools">
-      <span class="count" id="count"></span>
-      <button class="tog" id="auto" aria-pressed="true"><span></span>自動示範</button>
+    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="開啟分類與設定選單">
+      <span class="mb-ic" aria-hidden="true"><i></i><i></i><i></i></span><span>分類</span>
+    </button>
+    <div class="menu" id="menu">
+      <div class="chips" id="chips"></div>
+      <div class="tools">
+        <span class="count" id="count"></span>
+        <button class="tog" id="auto" aria-pressed="true"><span></span>自動示範</button>
+      </div>
     </div>
   </div>
 </div>
 
 <main>
+  <h2 class="cur-cat" id="cur-cat" aria-live="polite">全部</h2>
   <div class="grid" id="grid"></div>
 </main>
 
 
 <div class="modal" id="modal" hidden>
   <div class="mbox" role="dialog" aria-modal="true" aria-labelledby="m-title">
-    <button class="x" id="m-close" aria-label="關閉">✕</button>
+    <div class="mhead">
+      <div class="mmeta"><span id="m-id"></span><span class="cat" id="m-cat"></span></div>
+      <button class="x" id="m-close" aria-label="關閉"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
     <div class="mgrid">
       <div class="pv big" id="m-pv"></div>
       <div class="minfo">
-        <div class="row1"><span id="m-id"></span><span class="cat" id="m-cat"></span></div>
-        <h2 id="m-title"></h2>
+        <div class="mtitle">
+          <h2 id="m-title"></h2>
+          <div class="mnav"><button id="m-prev" aria-label="上一個效果" title="上一個">←</button><button id="m-next" aria-label="下一個效果" title="下一個">→</button></div>
+        </div>
         <p class="en" id="m-en"></p>
         <dl>
           <dt>效果說明</dt><dd id="m-desc"></dd>
@@ -398,11 +476,18 @@ pre code{font:inherit}
           <dt>實作方式</dt><dd id="m-tech"></dd>
           <dt>交接備註</dt><dd id="m-tip"></dd>
         </dl>
-        <div class="mnav"><button id="m-prev">← 上一個</button><button id="m-next">下一個 →</button></div>
-      </div>
+        <div class="mode" id="m-mode" hidden>
+          <div class="mode-h">播放方式</div>
+          <div class="seg" role="radiogroup" aria-label="播放方式">
+            <button role="radio" data-mode="once">只播一次</button>
+            <button role="radio" data-mode="repeat">每次進入都重播</button>
+          </div>
+          <p class="mode-note">會套用到所有進場類效果的預覽，並同步更新下方的提示詞。</p>
+        </div>
+              </div>
     </div>
     <div class="mcode">
-      <div class="mcode-h"><span>PROMPT · 可直接貼給 Claude Code</span><button class="copy" id="m-copy">複製提示詞</button></div>
+      <div class="mcode-h"><span>PROMPT</span><button class="copy" id="m-copy">複製提示詞</button></div>
       <pre><code id="m-code"></code></pre>
     </div>
   </div>
@@ -436,7 +521,7 @@ const DATA = [
     desc:'統計數字進入畫面時從 0 跑到目標值，強化數據印象。',
     use:'成果數據、會員數、年資等 KPI 區塊。',
     how:'進入畫面時用 requestAnimationFrame 搭配 easeOutCubic 緩動更新數字。',
-    tip:'正式網站通常只播一次；數字套 font-variant-numeric: tabular-nums 避免寬度跳動。（示意卡片為了方便觀察會重播）' },
+    tip:'數字套 font-variant-numeric: tabular-nums 避免寬度跳動；KPI 數字一般建議只播一次。' },
   { id:'se-04', zh:'3D 滾筒列表', en:'3D Roll List', cat:'進場揭露', lv:'中階', tech:'Scroll 位置計算',
     desc:'列表項目依在畫面中的位置傾斜與淡出，像沿著滾筒轉動。',
     use:'時間軸、排行榜、選單式列表。',
@@ -616,6 +701,15 @@ const DATA = [
 // 依分類排序（同分類內維持編號順序）
 DATA.sort((a, b) => CATS.findIndex((c) => c.k === a.cat) - CATS.findIndex((c) => c.k === b.cat));
 
+/* ---------- replay mode（進場動畫：只播一次／每次進入都重播） ---------- */
+const REVEAL = new Set(['se-01', 'se-02', 'se-03', 'se-22', 'se-25']);
+let REPLAY = 'once';
+try { if (localStorage.getItem('replayMode') === 'repeat') REPLAY = 'repeat'; } catch (e) {}
+const MODE = (reset) => ({ mode: true, reset });
+const modeText = (x) => REPLAY === 'once'
+  ? '播放方式：只播一次——第一次進入畫面時播放，之後離開再回來都維持播完的狀態；播完後 unobserve，釋放監聽'
+  : `播放方式：每次進入畫面都重播——元素從上方或下方完全離開畫面時重置${x.reset ? '（' + x.reset + '）' : '為初始狀態'}，再次進入時重新播放；重置時暫時關閉 transition，避免看到倒退的動畫`;
+
 /* ---------- prompts ---------- */
 const P = {
   'se-01': ['捲動時，元素進入畫面會從下方約 28px 處往上移，同時淡入。', [
@@ -623,19 +717,21 @@ const P = {
     '元素進入畫面底部約 12% 時觸發',
     '動畫約 0.6 秒，緩動用 cubic-bezier(.2,.7,.2,1)',
     '用 IntersectionObserver 偵測並切換 class，動畫寫在 CSS',
-    '只播一次，離開畫面不重播']],
+    MODE()]],
   'se-02': ['容器進入畫面時，裡面的一組元素依序彈出，帶一點回彈。', [
     '套用在［圖示牆／Logo 牆／作品縮圖網格］',
     '每個元素從「縮小到 60%、往下 16px、透明」回到原位',
     '每個元素間隔 60ms 出場，整組不超過 0.8 秒',
     '回彈用 cubic-bezier(.3,1.5,.5,1)',
-    '用 CSS 變數 --i 控制每個元素的延遲順序，只播一次']],
+    '用 CSS 變數 --i 控制每個元素的延遲順序',
+    MODE()]],
   'se-03': ['統計數字進入畫面時，從 0 平順地跑到目標數值。', [
     '目標數值寫在 HTML 的 data 屬性，方便日後修改',
     '動畫約 1.4 秒，用 easeOutCubic（先快後慢）',
     '數字加千分位（例如 12,800），後面可接單位或符號（+、%）',
     '使用等寬數字（tabular-nums），跑動時寬度不會抖',
-    '元素有 60% 進入畫面才開始，只播一次']],
+    '元素有 60% 進入畫面才開始',
+    MODE('數字歸零')]],
   'se-04': ['列表項目依它在畫面中的上下位置產生 3D 傾斜與淡出，看起來像沿著滾筒轉動。', [
     '在畫面正中央的項目保持正面、完全不透明',
     '越靠近上下邊緣傾斜越多（最多約 ±37°），也越透明',
@@ -735,7 +831,8 @@ const P = {
     '套用在［主標題／章節標題］',
     '每行外層 overflow: hidden，字從 translateY(110%) rotate(10deg) 回到原位',
     '每個字間隔 40ms，轉場 0.6 秒，緩動用 cubic-bezier(.2,.8,.2,1)',
-    '用 IntersectionObserver 觸發，只播一次',
+    '用 IntersectionObserver 觸發',
+    MODE(),
     '英文以字母拆開、保留空白；拆字後在外層加 aria-label 保留原文']],
   'se-23': ['一段文字一開始顯示亂碼，隨捲動由左到右逐字「解碼」成正確內容。', [
     '使用 sticky 區段（外層約 300vh），文字置中',
@@ -753,7 +850,8 @@ const P = {
     '外層 perspective 約 800px，內層 transform-style: preserve-3d',
     '正反兩面絕對定位疊放，都設 backface-visibility: hidden（含 -webkit- 前綴）',
     '初始 rotateY(180deg)，進入畫面後轉回 0，轉場 0.9 秒、帶輕微回彈',
-    '多張卡片依序延遲 100ms 翻轉，只播一次']],
+    '多張卡片依序延遲 100ms 翻轉',
+    MODE('翻回背面')]],
   'se-26': ['圖片放在固定尺寸的裁切框裡，捲動時圖片移動得比框慢，產生細緻的視差。', [
     '框 overflow: hidden，圖片高度為框的 140%，上下各超出 20%',
     '依框中心在畫面中的位置，圖片 translateY 約 ±14%，不能露出框外的空白',
@@ -840,7 +938,7 @@ const TECH = [
 ];
 const promptOf = (d) => {
   const [fx, list, tech] = P[d.id];
-  return `請幫我實作「${d.zh}（${d.en}）」滾動效果。\n\n【效果】\n${fx}\n\n【細節】\n${list.map((x) => '- ' + x).join('\n')}\n\n【技術要求】\n${(tech || TECH).map((x) => '- ' + x).join('\n')}`;
+  return `請幫我實作「${d.zh}（${d.en}）」滾動效果。\n\n【效果】\n${fx}\n\n【細節】\n${list.map((x) => '- ' + (x.mode ? modeText(x) : x)).join('\n')}\n\n【技術要求】\n${(tech || TECH).map((x) => '- ' + x).join('\n')}`;
 };
 
 /* ---------- helpers ---------- */
@@ -848,6 +946,10 @@ const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const rt = (el, vp) => el.getBoundingClientRect().top - vp.getBoundingClientRect().top;
 const lp = (w, vp) => { const h = w.offsetHeight - vp.clientHeight; return h > 0 ? clamp(-rt(w, vp) / h) : 0; };
 const PAD = (t) => `<div class="pad">${t}</div>`;
+// 元素是否位在觸發區內（頂端低於 enter 線、底端高於 exit 線）
+const inZone = (el, vp, enter, exit) => { const H = vp.clientHeight, t = rt(el, vp); return t < H * enter && t + el.offsetHeight > H * exit; };
+// 依播放方式決定下一個狀態：只播一次 = 進過就保持；重播 = 跟著是否在區內
+const nextOn = (cur, inside) => (REPLAY === 'once' ? cur || inside : inside);
 const LINES = (n) => Array.from({ length: n }, (_, k) =>
   `<div class="ln-p">${[94, 88, 97, 82, 56].map((w) => `<i style="width:${w - (k % 3) * 5}%"></i>`).join('')}</div>`).join('');
 const WRAP = (n, inner, cls = '') => `<div class="wrap" style="height:calc(var(--h)*${n})"><div class="stage ${cls}">${inner}</div></div>`;
@@ -867,23 +969,29 @@ const B = {
     vp.innerHTML = PAD('↓ SCROLL') + Array.from({ length: 7 }, (_, i) =>
       `<div class="fu-item"><i style="background:${C[i % 4]}"></i><div class="fu-txt"><b></b><span></span></div></div>`).join('') + PAD('END');
     const it = $$('.fu-item', vp);
-    return () => { const H = vp.clientHeight; it.forEach((e) => e.classList.toggle('in', rt(e, vp) < H * .88)); };
+    return {
+      update: () => it.forEach((e) => e.classList.toggle('in', nextOn(e.classList.contains('in'), inZone(e, vp, .88, .05)))),
+      reset: () => it.forEach((e) => e.classList.remove('in')),
+    };
   },
   'se-02': (vp) => {
     vp.innerHTML = PAD('↓ SCROLL') + `<div class="sg-grid">${Array.from({ length: 9 }, (_, i) =>
       `<div class="sg-tile" style="--i:${i};background:${C[(i * 2) % 5]};border-radius:${i % 3 === 1 ? '50%' : '12px'}"></div>`).join('')}</div>` + PAD('END');
     const g = $('.sg-grid', vp);
-    return () => { const H = vp.clientHeight, t = rt(g, vp); g.classList.toggle('in', t < H * .75 && t + g.offsetHeight > H * .2); };
+    return {
+      update: () => g.classList.toggle('in', nextOn(g.classList.contains('in'), inZone(g, vp, .75, .2))),
+      reset: () => g.classList.remove('in'),
+    };
   },
   'se-03': (vp) => {
     const S = [[12800, '+', '累積會員'], [98, '%', '客戶滿意度'], [36, '座', '服務城市']];
     vp.innerHTML = PAD('↓ SCROLL') + `<div class="ct-wrap">${S.map((s, i) =>
       `<div class="ct-box" style="border-color:${C[i]}"><span class="ct-num" data-to="${s[0]}">0</span><span class="ct-suf">${s[1]}</span><span class="ct-lab">${s[2]}</span></div>`).join('')}</div>` + PAD('END');
     const boxes = $$('.ct-box', vp);
-    return () => {
-      const H = vp.clientHeight;
+    const zero = (b) => { b._on = 0; b._tok = 0; $('.ct-num', b).textContent = '0'; };
+    return { reset: () => boxes.forEach(zero), update: () => {
       boxes.forEach((b) => {
-        const t = rt(b, vp), v = t < H * .85 && t + b.offsetHeight > 0, n = $('.ct-num', b);
+        const v = inZone(b, vp, .85, 0), n = $('.ct-num', b);
         if (v && !b._on) {
           b._on = 1; const to = +n.dataset.to, t0 = performance.now(), tok = b._tok = Math.random();
           const f = (now) => {
@@ -893,9 +1001,9 @@ const B = {
             if (k < 1) requestAnimationFrame(f);
           };
           requestAnimationFrame(f);
-        } else if (!v && b._on) { b._on = 0; b._tok = 0; n.textContent = '0'; }
+        } else if (!v && b._on && REPLAY === 'repeat') zero(b);
       });
-    };
+    } };
   },
   'se-04': (vp) => {
     vp.innerHTML = `<div class="rl-list">${Array.from({ length: 12 }, (_, i) =>
@@ -1101,7 +1209,10 @@ const B = {
     vp.innerHTML = PAD('↓ SCROLL') + L.map((l, n) => `<div class="cs-line" aria-label="${l}"${n === 2 ? ' style="color:var(--acc)"' : ''}>${[...l].map((c, i) =>
       `<span aria-hidden="true" style="--i:${i}">${c === ' ' ? '&nbsp;' : c}</span>`).join('')}</div>`).join('') + PAD('END');
     const lines = $$('.cs-line', vp);
-    return () => { const H = vp.clientHeight; lines.forEach((l) => { const t = rt(l, vp); l.classList.toggle('in', t < H * .8 && t + l.offsetHeight > H * .1); }); };
+    return {
+      update: () => lines.forEach((l) => l.classList.toggle('in', nextOn(l.classList.contains('in'), inZone(l, vp, .8, .1)))),
+      reset: () => lines.forEach((l) => l.classList.remove('in')),
+    };
   },
   'se-23': (vp) => {
     const A = 'MAKE IT MOVE', Bt = '讓畫面動起來';
@@ -1113,13 +1224,19 @@ const B = {
       el.innerHTML = [...txt].map((c, i) => {
         if (c === ' ') return ' ';
         if (p * (n + 2) > i + 2) return c;
-        return `<span class="x">${pool[Math.floor(Math.random() * pool.length)]}</span>`;
+        return `<span class="us-x">${pool[Math.floor(Math.random() * pool.length)]}</span>`;
       }).join('');
     };
-    return () => {
-      const p = clamp((lp(w, vp) - .05) / .8);
-      draw(a, A, PA, p); draw(b, Bt, PB, clamp(p * 1.1 - .1));
-      lab.textContent = `DECODING ${Math.round(p * 100)}%`;
+    let p = 0, last = 0;
+    const render = () => { draw(a, A, PA, p); draw(b, Bt, PB, clamp(p * 1.1 - .1)); };
+    return {
+      update: () => {
+        p = clamp((lp(w, vp) - .05) / .8);
+        render();
+        lab.textContent = `DECODING ${Math.round(p * 100)}%`;
+      },
+      // 沒在捲動時，未解碼的字也持續跳動（約每 70ms 換一次）
+      tick: () => { const now = performance.now(); if (now - last > 70 && p < 1) { last = now; render(); } },
     };
   },
   'se-24': (vp) => {
@@ -1139,7 +1256,10 @@ const B = {
   'se-25': (vp) => {
     vp.innerHTML = PAD('↓ SCROLL') + [0, 1, 2].map((i) => `<div class="cf-card"><div class="cf-in" style="transition-delay:${i * 100}ms"><div class="cf-f" style="background:${C[i]}"><div><b>0${i + 1}</b><span>FRONT</span></div></div><div class="cf-b">✦</div></div></div>`).join('') + PAD('END');
     const cards = $$('.cf-card', vp);
-    return () => { const H = vp.clientHeight; cards.forEach((c) => { const t = rt(c, vp); c.classList.toggle('in', t < H * .75 && t + c.offsetHeight > H * .1); }); };
+    return {
+      update: () => cards.forEach((c) => c.classList.toggle('in', nextOn(c.classList.contains('in'), inZone(c, vp, .75, .1)))),
+      reset: () => cards.forEach((c) => c.classList.remove('in')),
+    };
   },
   'se-26': (vp) => {
     vp.innerHTML = PAD('↓ SCROLL') + [2, 0, 1].map((a) => `<div class="pc-frame"><div class="pc-img" style="background:${ART[a]}"></div><span>PARALLAX CROP</span></div>`).join('') + PAD('END');
@@ -1337,7 +1457,7 @@ function mount(vp, id, isModal) {
   if (vp.clientHeight) vp.style.setProperty('--h', vp.clientHeight + 'px');
   const r = B[id](vp);
   const o = typeof r === 'function' ? { update: r } : r;
-  Object.assign(vp, { _u: o.update || (() => {}), _t: o.tick, _pos: 0, _dir: 1, _pause: 0, _user: 0, _next: 0, _modal: !!isModal, _vis: !!isModal });
+  Object.assign(vp, { _u: o.update || (() => {}), _t: o.tick, _r: o.reset, _pos: 0, _dir: 1, _pause: 0, _user: 0, _next: 0, _modal: !!isModal, _vis: !!isModal });
   vp.addEventListener('scroll', () => {
     if (Math.abs(vp.scrollTop - vp._pos) > 3) vp._pos = vp.scrollTop;
     if (!vp._q) { vp._q = 1; requestAnimationFrame(() => { vp._q = 0; vp._u(); }); }
@@ -1355,12 +1475,32 @@ function mount(vp, id, isModal) {
     vp.addEventListener('mouseenter', () => { vp._hover = 1; });
     vp.addEventListener('mouseleave', () => { vp._hover = 0; vp._pos = vp.scrollTop; });
     const host = vp.closest('.card') || vp.parentNode;
-    host.addEventListener('mouseenter', () => { vp._cardHover = 1; vp._pos = vp.scrollTop; vp._pause = 0; vp._next = 0; });
+    host.addEventListener('mouseenter', () => { vp._cardHover = 1; vp._pos = vp.scrollTop; vp._pause = 0; vp._next = 0; if (!AUTO && REPLAY === 'repeat') replay(vp); });
     host.addEventListener('mouseleave', () => { vp._cardHover = 0; });
   }
   vp.tabIndex = 0;
   live.add(vp);
   vp._u();
+  if (vp._r) requestAnimationFrame(() => replay(vp)); // 一開始畫面上的元素也播放進場動畫
+  const rp = vp.parentNode.querySelector('.rp-btn');
+  if (rp) rp.addEventListener('click', (e) => { e.stopPropagation(); restart(vp); });
+}
+
+// 回到頂部並重播進場動畫（「只播一次」模式下的手動重播）
+function restart(vp) {
+  Object.assign(vp, { _pos: 0, _dir: 1, _pause: performance.now() + 1100, _user: 0 });
+  vp.scrollTop = 0;
+  replay(vp);
+}
+
+// 重置進場動畫並重新觸發（每輪示範開始時呼叫，讓畫面上的元素也能重播）
+function replay(vp) {
+  if (!vp._r) return;
+  vp.classList.add('rs');      // 暫時關閉 transition，瞬間回到初始狀態
+  vp._r();
+  void vp.offsetWidth;
+  vp.classList.remove('rs');
+  requestAnimationFrame(() => vp._u());
 }
 
 function setPaused(vp) {
@@ -1390,7 +1530,7 @@ function loop(t) {
     if (center !== prevCenter) {
       // 離開中央的卡片解除暫停，下次滑回來會重新播放
       if (prevCenter && prevCenter._paused) { prevCenter._paused = 0; setPaused(prevCenter); }
-      if (center) center._pos = center.scrollTop;
+      if (center) { center._pos = center.scrollTop; if (!AUTO && REPLAY === 'repeat') replay(center); }
       prevCenter = center;
     }
   }
@@ -1411,7 +1551,7 @@ function loop(t) {
       } else if (t > vp._pause) {
         vp._pos += .085 * dt * vp._dir;
         if (vp._pos >= max) { vp._pos = max; vp._dir = -1; vp._pause = t + 1100; }
-        else if (vp._pos <= 0) { vp._pos = 0; vp._dir = 1; vp._pause = t + 1100; }
+        else if (vp._pos <= 0) { vp._pos = 0; vp._dir = 1; vp._pause = t + 1100; vp.scrollTop = 0; if (REPLAY === 'repeat') replay(vp); }
         vp.scrollTop = vp._pos;
       }
     }
@@ -1424,7 +1564,7 @@ function loop(t) {
 const grid = $('#grid');
 grid.innerHTML = DATA.map((d) => `
   <article class="card" data-id="${d.id}">
-    <div class="pv"><div class="vp" aria-label="${d.zh} 預覽，可在框內滾動"></div><span class="hint">↕ 框內可滾動</span></div>
+    <div class="pv"><div class="vp" aria-label="${d.zh} 預覽，可在框內滾動"></div><span class="hint">↕ 框內可滾動</span>${REVEAL.has(d.id) ? '<button class="rp-btn" aria-label="重播動畫">↻ 重播</button>' : ''}</div>
     <div class="meta">
       <div class="row1"><span>${d.id.toUpperCase()}</span><span class="cat" style="--c:${catColor(d.cat)}">${d.cat}</span></div>
       <h3 data-open="${d.id}">${d.zh}</h3>
@@ -1439,6 +1579,16 @@ $$('.card', grid).forEach((card) => { mount($('.vp', card), card.dataset.id); vi
 
 $$('.n-fx').forEach((el) => { el.textContent = DATA.length; });
 
+/* ---------- mobile hamburger menu ---------- */
+const bar = $('.bar'), menuBtn = $('#menu-btn');
+function setMenu(open) {
+  bar.classList.toggle('open', open);
+  menuBtn.setAttribute('aria-expanded', String(open));
+}
+menuBtn.addEventListener('click', () => setMenu(!bar.classList.contains('open')));
+document.addEventListener('click', (e) => { if (!bar.contains(e.target)) setMenu(false); });
+addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+
 /* ---------- filter ---------- */
 let curCat = '全部', q = '';
 const chips = $('#chips');
@@ -1447,6 +1597,8 @@ chips.innerHTML = [{ k: '全部', c: 'var(--ink)' }, ...CATS].map((c) =>
 chips.addEventListener('click', (e) => {
   const b = e.target.closest('.chip'); if (!b) return;
   curCat = b.dataset.cat; $$('.chip', chips).forEach((x) => x.classList.toggle('on', x === b)); apply();
+  $('#cur-cat').textContent = curCat;
+  setMenu(false);
 });
 $('#q').addEventListener('input', (e) => { q = e.target.value.trim().toLowerCase(); apply(); });
 
@@ -1476,6 +1628,7 @@ function syncHints() {
   $$('.hint').forEach((h) => { h.textContent = h.parentNode.classList.contains('paused') ? '❚❚ 已暫停，點一下繼續' : base; });
 }
 syncHints();
+syncMode();
 
 /* ---------- modal ---------- */
 const modal = $('#modal');
@@ -1490,12 +1643,27 @@ function openModal(id) {
   $('#m-desc').textContent = d.desc; $('#m-use').textContent = d.use;
   $('#m-tech').textContent = `${d.how}（${d.lv} · ${d.tech}）`; $('#m-tip').textContent = d.tip;
   $('#m-code').textContent = promptOf(d);
-  const pv = $('#m-pv'); pv.className = 'pv big'; pv.innerHTML = '<div class="vp"></div><span class="hint">↕ 框內可滾動</span>';
+  $('#m-mode').hidden = !REVEAL.has(id);
+  syncMode();
+  const pv = $('#m-pv'); pv.className = 'pv big'; pv.innerHTML = '<div class="vp"></div><span class="hint">↕ 框內可滾動</span>' + (REVEAL.has(id) ? '<button class="rp-btn" aria-label="重播動畫">↻ 重播</button>' : '');
   mount($('.vp', pv), id, true);
   syncHints();
   $('.mbox').scrollTop = 0;
   if (location.hash !== '#' + id) location.hash = id;
 }
+function syncMode() {
+  document.body.classList.toggle('mode-once', REPLAY === 'once');
+  $$('#m-mode .seg button').forEach((b) => b.setAttribute('aria-checked', String(b.dataset.mode === REPLAY)));
+}
+$('#m-mode').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-mode]'); if (!b || b.dataset.mode === REPLAY) return;
+  REPLAY = b.dataset.mode;
+  try { localStorage.setItem('replayMode', REPLAY); } catch (err) {}
+  syncMode();
+  const d = DATA.find((x) => x.id === curId); if (d) $('#m-code').textContent = promptOf(d);
+  live.forEach((vp) => { if (vp._r) restart(vp); });
+});
+
 function closeModal(fromRoute) {
   if (!modalOpen) return;
   modalOpen = false; curId = null; modal.hidden = true; document.body.style.overflow = '';
